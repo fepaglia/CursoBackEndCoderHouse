@@ -3,7 +3,7 @@
         <h1>Product manager con Websockets</h1>
     </header>
     <div class="container">
-        <form class="formulario">
+        <form id="formulario">
             <h2>Carga de productos</h2>
             <div>
                 <label for="title">Title:  </label>
@@ -19,12 +19,12 @@
                 <input type="number" id="price" name="price"><br>
             </div>
             <div>
-                <label for="thumbnail">Thumbnails:  </label>
-                <input type="text" id="thumbnail" name="thumbnail"><br>
+                <label for="thumbnails">Thumbnails:  </label>
+                <input type="text" id="thumbnails" name="thumbnails"><br>
             </div>
             <div>
                 <label for="status">Status:  </label>
-                <select id="status" name="status">
+                <select id="status" name="status" type="boolean">
                     <option value="true">true</option>
                     <option value="false">false</option>
                 </select><br>
@@ -38,7 +38,7 @@
                 <input type="number" id="stock" name="stock"><br>
             </div>
 
-            <input  type="submit" value="Enviar">
+            <input id="addProduct"  type="submit" value="Agregar Producto">
         </form>
 
         <div id="liveProducts">

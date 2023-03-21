@@ -12,7 +12,7 @@
 }
 
 
-.formulario {
+#formulario {
     border: 1px solid black;
     display: flex;
     flex-flow: column nowrap;
@@ -25,7 +25,7 @@
     padding: 5px;
 }
 
-.formulario > div {
+#formulario > div {
     display: flex;
     flex-direction: row wrap;
 

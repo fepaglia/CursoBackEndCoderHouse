@@ -1,31 +1,42 @@
 const socket = io();
-import ProductManager from "../../manager/ProductManager";
-const productmanager = new ProductManager();
 
-//enviar esta informacion por websockets
-const showProducts = await productmanager.getProducts();
+const formulario = document.getElementById('formulario');
+const addProduct = document.getElementById('addProduct');
+const outProds = document.getElementById('liveProducts');
 
-//Tengo que capturar la informacion del formulario
-productmanager.addProduct();
-
-let formulario = document.querySelector('formulario');
-
-const products = document.getElementById('liveproducts');
-
-
-
-formulario.addEventListener('submit', evento =>{
+//Enviamos
+addProduct.addEventListener('click', evento =>{
   evento.preventDefault();
-  const product = {
+  const newProduct = {
     title: formulario.title.value,
     description: formulario.description.value,
     price: formulario.price.value,
-    thumbnail: formulario.thumbnail.value,
     status: formulario.status.value,
+    thumbnails: formulario.thumbnails.value,
     code: formulario.code.value,
-    stock: formulario.stock.value,
+    stock: formulario.stock.value
   };
-socket.emit('submit', productmanager.addProduct(product)); 
-})
+  
+  socket.emit('product', newProduct);
+});
 
+//Recibimos
+socket.on('allProds', data =>{
+  let products = ''
+  data.forEach(product =>{
+    products +=  `
+    <div class="prodBox">
+      <div><span>ID: </span><p>${product.id}</p></div>
+      <div><span>Nombre: </span><p>${product.title}</p></div>
+      <div><span>Precio: </span><p>${product.price}</p></div>
+      <div><span>Descripcion: </span><p>${product.description}</p></div>
+      <div><span>Thumbnails: </span><p>${product.thumbnails}</p></div>
+      <div><span>Status: </span><p>${product.status}</p></div>
+      <div><span>Status: </span><p>${product.code}</p></div>
+      <div><span>Stock: </span><p>${product.stock}</p></div>
+    </div>
+    `;
+    outProds.innerHTML = products;
+  });
 
+});
