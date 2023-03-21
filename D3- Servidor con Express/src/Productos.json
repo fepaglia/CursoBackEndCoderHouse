@@ -1,0 +1,181 @@
+[{
+    "title": "Gaseosa",
+    "description": "botella plastica 2lts",
+    "price": 500,
+    "thumbail": "sin imagen",
+    "code": "bebidacola",
+    "stock": 24,
+    "id": 0
+},
+{
+    "title": "Vino",
+    "description": "tinto o blanco",
+    "price": 1000,
+    "thumbail": "sin imagen",
+    "code": "vino750ml",
+    "stock": 24,
+    "id": 3
+},
+{
+    "title": "Leche Entera",
+    "description": "1litro en carton",
+    "price": 300,
+    "thumbail": "sin imagen",
+    "code": "lecheentera",
+    "stock": 12,
+    "id": 4
+},
+{
+    "title": "prueba de put",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "thumbail": "sin imagen",
+    "code": "lechedesc",
+    "stock": 12,
+    "id": 5
+},
+{
+    "title": "Terma",
+    "description": "hierbas serranas",
+    "price": 600,
+    "thumbail": "sin imagen",
+    "code": "termaserranas",
+    "stock": 16,
+    "id": 6
+},
+{
+    "title": "Chocolatada",
+    "description": "carton de 1lt",
+    "price": 450,
+    "thumbail": "sin imagen",
+    "code": "chocolatada",
+    "stock": 12,
+    "id": 7
+},
+{
+    "title": "Yogurt",
+    "description": "varios sabores",
+    "price": 450,
+    "thumbail": "sin imagen",
+    "code": "yogurt",
+    "stock": 12,
+    "id": 8
+},
+{
+    "title": "Agua saborizada",
+    "description": "varios sabores",
+    "price": 480,
+    "thumbail": "sin imagen",
+    "code": "aguasaborizada",
+    "stock": 25,
+    "id": 9
+},
+{
+    "title": "Champagne",
+    "description": "importado 750ml",
+    "price": 1000,
+    "thumbail": "sin imagen",
+    "code": "champagne",
+    "stock": 6,
+    "id": 10
+},
+{
+    "title": "Fernet",
+    "description": "este es un producto prueba",
+    "price": 1800,
+    "thumbail": "sin imagen",
+    "code": "fernet",
+    "stock": 6,
+    "id": 11
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "lechasdedescprasdasdueba",
+    "stock": 12,
+    "id": 12
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "lechasdedasdescasdaaprasdasdueba",
+    "stock": 12,
+    "id": 13
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "lechasdedasasddescasdaaprasdasdueba",
+    "stock": 12,
+    "id": 14
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "lechasdedasasddescasdaaprasdasdueasdba",
+    "stock": 12,
+    "id": 15
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "lechasdedasasddescasdaaprasdaaaaasdueasdba",
+    "stock": 12,
+    "id": 16
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "lechsdba",
+    "stock": 12,
+    "id": 17
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "campos",
+    "stock": 12,
+    "id": 18
+},
+{
+    "title": "prueba de put",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "thumbail": "sin imagen",
+    "code": "prueba 1",
+    "stock": 12,
+    "id": 19
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "campos5",
+    "stock": 12,
+    "id": 20
+},
+{
+    "title": "prueba de post",
+    "description": "sachet de 1lt",
+    "price": 310,
+    "status": true,
+    "code": "prueba 1",
+    "stock": 12,
+    "id": 21
+}]
