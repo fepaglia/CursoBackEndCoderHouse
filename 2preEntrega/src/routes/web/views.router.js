@@ -10,8 +10,21 @@ const router = Router();
 
 router.get('/products', async (req,res)=>{
     try {
-        const products = await dbproductmanager.getProducts();
-        res.render('products', {products, style: 'products.css'});
+        const { limit = 10 } = req.query;
+        const { page = 1 } = req.query;
+        const sort = req.query.sort;
+
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await dbproductmanager.getProducts(limit, page, sort);
+        const products = docs;
+
+        res.render('products', {
+            products, 
+            hasPrevPage, 
+            hasNextPage,
+            nextPage, 
+            prevPage, 
+            style: 'products.css'
+        });
         
     } catch (error) {
         console.log(error);

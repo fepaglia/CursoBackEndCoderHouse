@@ -1,13 +1,22 @@
-import { productModel } from '../../models/products.js';
+import productModel from '../../models/products.js';
 
 export default class dBProductManager {
     constructor(){
-        console.log('Working products with DB in mongoDB');
+        console.log('Working products with mongoDB');
     };
 
-    getProducts = async () =>{
-        const productos = await productModel.find();
-        return productos.map(prod => prod.toObject());
+    getProducts = async (limit, page, sort) =>{
+                if (sort) {
+                    let sortOption = {};
+                    if (sort === "asc") {
+                        sortOption = { price: 'asc' };
+                    } else if (sort === "desc") {
+                        sortOption = { price: 'desc' };
+                    }
+                    sort = sortOption;
+                }
+        const products = await productModel.paginate({}, { limit, page, sort, lean: true });;
+        return products;
     };
 
     addProduct = async (newProduct) =>{

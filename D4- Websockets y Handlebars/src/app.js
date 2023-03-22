@@ -38,6 +38,6 @@ io.on('connection', socket =>{
         await productmanager.addProduct( data.title, data.description, data.price, data.thumbnails, data.status, data.code, data.stock );
 
         const products = await productmanager.getProducts();
-        io.emit('allProds', products)
+        io.emit('allProds', products);
     })
 });
