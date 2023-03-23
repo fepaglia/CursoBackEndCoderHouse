@@ -6,6 +6,8 @@ const dbcartmanager = new dBCartManager();
 const dbproductmanager = new dBProductManager();
 const router = Router();
 
+
+//Borrar un producto de un carrito:
 router.delete('/:cid/products/:pid', async (req,res) =>{
     const prodId = req.params.pid;
     const cartId = req.params.cid;
@@ -23,10 +25,28 @@ router.delete('/:cid/products/:pid', async (req,res) =>{
     
 });
 
+//Agregar un producto de l carrito:
 router.put('/:cid/products/:pid', async (req,res) =>{
-    
+    const prodId = req.params.pid;
+    const cartId = req.params.cid;
+    try {
+        const cart = await dbcartmanager.getCartById(cartId);
+        const prod = await dbproductmanager.getProductsById(prodId);
+
+
+        cart.products.push({pId: prod._id});
+        console.log(cart);
+
+        const update = await dbcartmanager.updateCart(cartId, cart)
+        res.send({payload: update})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error });
+    }
+
 })
 
+//Vaciar un carrito:
 router.put('/:cid', async (req,res)=>{
     const id = req.params.cid;
     try {
@@ -38,6 +58,7 @@ router.put('/:cid', async (req,res)=>{
     }
 })
 
+//Mostrar Carrito especifico:
 router.get('/:cid', async (req,res) =>{
     const id = req.params.cid;
     try {
@@ -50,6 +71,7 @@ router.get('/:cid', async (req,res) =>{
     }
 })
 
+// Borrar carrito:
 router.delete('/:cid', async (req, res)=>{
     const cid = req.params.cid;
     try {
@@ -62,6 +84,7 @@ router.delete('/:cid', async (req, res)=>{
     }
 })
 
+//Llamar a todos los carritos:
 router.get('/', async (req,res)=>{
     try {
         const carts = await dbcartmanager.getCarts();
@@ -73,6 +96,7 @@ router.get('/', async (req,res)=>{
     }
 })
 
+//Crear Nuevo Carrito:
 router.post('/', async (req,res)=>{
     try {
         const newCart = await dbcartmanager.addCart();

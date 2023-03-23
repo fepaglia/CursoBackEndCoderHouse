@@ -15,9 +15,9 @@ export default class dBCartManager {
         return cartAdded;
     };
 
-    getCartById = async(id) =>{
-        const cart = await cartModel.findOne({_id: id})
-        return cart;
+    getCartById = async(cid) =>{
+        const searchCart = await cartModel.findOne({_id: cid})
+        return searchCart;
     };
 
     updateCart = async (id, updateCart) =>{

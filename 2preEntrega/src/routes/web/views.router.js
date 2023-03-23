@@ -32,11 +32,12 @@ router.get('/products', async (req,res)=>{
     }
 });
 
-router.get('/cart/:cid', async (req, res) =>{
+router.get('/carts/:cid', async (req, res) =>{
     const id = req.params.cid;
     try {
-        const cart = await dbcartmanager.getCartById(id);
-        res.render('carts', {cart, style: 'carts.css'});
+        let cart = await dbcartmanager.getCartById(id);
+
+        res.render('carts', cart);
         
     } catch (error) {
         console.log(error);

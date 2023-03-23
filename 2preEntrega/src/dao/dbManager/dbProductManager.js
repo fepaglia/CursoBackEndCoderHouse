@@ -15,7 +15,7 @@ export default class dBProductManager {
                     }
                     sort = sortOption;
                 }
-        const products = await productModel.paginate({}, { limit, page, sort, lean: true });;
+        const products = await productModel.paginate({}, { limit, page, sort, lean: true });
         return products;
     };
 

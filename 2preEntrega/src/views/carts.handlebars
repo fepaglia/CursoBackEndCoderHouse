@@ -5,12 +5,16 @@
     </header>
 
     <div class="container">
-       {{#each cart.products}}
+        
+            {{#each products}}
+                    <div>
+                        <p>Id: </p>
+                        <p>Nombre del producto: {{this.pId.title}}</p>
+                        <p>Precio: {{this.pId.price}}</p>
+                        <p>Cantidad:  {{quantity}}</p>
+                    </div>
 
-
-       {{/each}}
+            {{/each}}
+        
     </div>
-  
-    
-    
 </div>
