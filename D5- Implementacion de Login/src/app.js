@@ -1,10 +1,11 @@
 import express from 'express';
+import session from 'express-session';
 import handlebars from 'express-handlebars';
 
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
 
-import sessionRouter from './routes/api/sessions.router.js'
+import sessionsRouter from './routes/api/sessions.router.js'
 import productsRouter from './routes/api/products.router.js';
 import cartsRouter from './routes/api/carts.router.js';
 import viewsRouter from './routes/web/views.router.js';
@@ -27,7 +28,7 @@ app.use(session({
     store: MongoStore.create({
         mongoUrl: 'mongodb+srv://admin1:1234@cluster0.qpiwfcg.mongodb.net/?retryWrites=true&w=majority',
         mongoOptions: { useNewUrlParser: true },
-    //    ttl: 30 //Se le puede pasar el tiempo de expiracion, en segundos en este caso (30segs)
+        ttl: 120 //Se le puede pasar el tiempo de expiracion, en segundos en este caso (30segs)
        }),
     secret: 'secretCoder',  
     resave: true,
