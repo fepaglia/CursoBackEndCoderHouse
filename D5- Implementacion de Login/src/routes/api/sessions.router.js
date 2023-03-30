@@ -44,8 +44,9 @@ router.post('/login', async (req, res) => {
         delete user.password;
 
         req.session.user = user;
+        console.log(user)
+        res.send({status: 'success', message: 'login success' });
 
-        res.send({ status: 'success', message: 'login success' });
 
     } catch (error) {
         res.status(500).send({ status: 'error', error });

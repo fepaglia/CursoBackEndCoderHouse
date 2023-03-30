@@ -56,6 +56,10 @@ router.get('/carts/:cid', privateAccess ,async (req, res) =>{
     }
 });
 
+router.get('/', publicAccess, async (req, res) => {
+    res.redirect('/login');
+  });
+
 router.get('/register', publicAccess, (req, res) => {
     res.render('register');
   });
@@ -69,9 +73,7 @@ router.get('/reset', publicAccess, (req, res) => {
 });
 
 router.get('/', privateAccess, (req, res) => {
-    res.render('profile', {
-      user: req.session.user,
-    });
+    res.redirect('/products').send({user: req.session.user});
 });
 
 export default router;
