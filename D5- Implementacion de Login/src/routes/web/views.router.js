@@ -9,12 +9,12 @@ const dbproductmanager = new dBProductManager();
 const router = Router();
 
 const publicAccess = (req, res, next) =>{
-    if(req.session.user) return req.redirect('/products');
+    if(req.session.user) return res.redirect('/products');
     next();
 };
 
 const privateAccess = (req, res, next) =>{
-    if(req.session.user) return req.redirect('/login');
+    if(!req.session.user) return res.redirect('/login');
     next();
 }
 
@@ -56,19 +56,22 @@ router.get('/carts/:cid', privateAccess ,async (req, res) =>{
     }
 });
 
-router.get("/register", publicAccess, (req, res) => {
-    res.render("register");
+router.get('/register', publicAccess, (req, res) => {
+    res.render('register');
   });
   
-router.get("/login", publicAccess, (req, res) => {
-    res.render("login");
+router.get('/login', publicAccess, (req, res) => {
+    res.render('login');
 });
   
-router.get("/profile", privateAccess, (req, res) => {
-    res.render("profile", {
+router.get('/reset', publicAccess, (req, res) => {
+    res.render('reset');
+});
+
+router.get('/', privateAccess, (req, res) => {
+    res.render('profile', {
       user: req.session.user,
     });
 });
-  
 
 export default router;

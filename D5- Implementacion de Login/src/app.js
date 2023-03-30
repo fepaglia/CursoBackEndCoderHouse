@@ -14,15 +14,15 @@ import __dirname from './utils.js';
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static(`${__dirname}/public`));
+
 try {
     await mongoose.connect('mongodb+srv://admin1:1234@cluster0.qpiwfcg.mongodb.net/?retryWrites=true&w=majority')
 } catch (error) {
     console.log(error)
 }
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(express.static(`${__dirname}/public`));
 
 app.use(session({
     store: MongoStore.create({

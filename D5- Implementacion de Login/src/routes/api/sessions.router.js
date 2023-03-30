@@ -1,33 +1,65 @@
 import { Router } from 'express';
-import dbUserManager from '../../dao/dbManager/dbUserManager.js';
+import { createHash, isValidPassword } from '../../utils.js';
+import userModel from '../../models/users.model.js';
 
-const dbusermanager = new dbUserManager();
 const router = Router();
 
-router.post('/register', async (req,res)=>{
-    const {first_name, last_name, email, age, password} = req.body;
+router.post('/register', async (req, res) => {
+    const { first_name, last_name, email, age, password } = req.body;
 
     try {
-        await dbusermanager.createUser(first_name, last_name, email, age, password)
-        res.send({status: 'success', message: 'user registered'});
-        console.log(message);
+        const exists = await userModel.findOne({ email });
+        if (exists) return res.status(400).send({ status: 'error', error: 'user already exists' });
 
+        const user = {
+            first_name,
+            last_name,
+            email,
+            age,
+            password: createHash(password)
+        };
+
+        await userModel.create(user);
+
+        res.send({ status: 'success', message: 'user registered' });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ status: 'error', error});
+        res.status(500).send({ status: 'error', error });
     }
-})
+});
 
-router.post('/login', async (req,res) =>{
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    await dbusermanager.loginUser(email, password);
-})
-  
+
+    if (!email || !password) return res.status(400)
+        .send({ status: 'error', message: 'Incomplete values' });
+
+    try {
+        const user = await userModel.findOne({ email });
+
+        if (!user) return res.status(404).send({ status: 'error', message: 'User not found' });
+
+        if (!isValidPassword(user, password)) return res.status(401).send({ status: 'error', message: 'Invalid credentials' });
+
+        delete user.password;
+
+        req.session.user = user;
+
+        res.send({ status: 'success', message: 'login success' });
+
+    } catch (error) {
+        res.status(500).send({ status: 'error', error });
+    }
+});
 
 router.get('/logout', async (req,res) =>{
     req.session.destroy(err =>{
-        if(err) res.status(500).send({status: 'error', error: 'couldnt logout'})
-        res.redirect('/login');
+        if(err) {
+            res.status(500).send({status: 'error', error: 'couldnt logout'})
+        } else {
+            console.log("Session destroyed successfully!");
+            res.redirect('/login');
+        }
     })
 })
 
