@@ -33,23 +33,30 @@ router.post('/login', async (req, res) => {
 
     if (!email || !password) return res.status(400)
         .send({ status: 'error', message: 'Incomplete values' });
+        console.log('Incomplete values');
 
     try {
         const user = await userModel.findOne({ email });
 
-        if (!user) return res.status(404).send({ status: 'error', message: 'User not found' });
+        if (!user){ 
+            res.status(404).send({ status: 'error', message: 'User not fund' });
+            console.log('User not fund')
+        };
 
-        if (!isValidPassword(user, password)) return res.status(401).send({ status: 'error', message: 'Invalid credentials' });
+        if (!isValidPassword(user, password)){
+            res.status(401).send({ status: 'error', message: 'Invalid credentials' });
+            console.log('Invalid credentials');
+        };
 
         delete user.password;
 
         req.session.user = user;
-        console.log(user)
+        
         res.send({status: 'success', message: 'login success' });
-
+        console.log('Login Success');
 
     } catch (error) {
-        res.status(500).send({ status: 'error', error });
+        res.status(500).send({ status:'error'});
     }
 });
 

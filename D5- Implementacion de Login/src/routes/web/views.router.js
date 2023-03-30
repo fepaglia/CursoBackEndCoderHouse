@@ -73,7 +73,10 @@ router.get('/reset', publicAccess, (req, res) => {
 });
 
 router.get('/', privateAccess, (req, res) => {
-    res.redirect('/products').send({user: req.session.user});
+    res.redirect('/products')
+    .send({
+      user: req.session.user
+    });
 });
 
 export default router;
