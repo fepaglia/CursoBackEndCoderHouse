@@ -29,7 +29,8 @@ router.get('/products', privateAccess, async (req,res)=>{
         const products = docs;
 
         res.render('products', {
-            products, 
+            products,
+            user: req.session.user.first_name,
             hasPrevPage, 
             hasNextPage,
             nextPage, 
@@ -73,10 +74,7 @@ router.get('/reset', publicAccess, (req, res) => {
 });
 
 router.get('/', privateAccess, (req, res) => {
-    res.redirect('/products')
-    .send({
-      user: req.session.user
-    });
+    res.redirect('/products');
 });
 
 export default router;
