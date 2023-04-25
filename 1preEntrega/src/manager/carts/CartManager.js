@@ -22,11 +22,10 @@ export default class CartManager {
     newCart = async () =>{
         const cart = this.cartModel;
 
-        this.addID(cart);
-
         let rawdata = await fs.promises.readFile(this.cartPath, 'utf-8');
         let data = JSON.parse(rawdata, null, "\n");
-
+        
+        this.addID(cart);
         data.push(cart);
 
         let newCart= data;
