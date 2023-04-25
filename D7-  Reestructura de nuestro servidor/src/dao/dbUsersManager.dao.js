@@ -7,11 +7,15 @@ export default class dbUsersManager {
         return await userModel.findOne({ email })
     };
 
+    getUserById = async (id) =>{
+        return await userModel.findOne({ _id: id })
+    };
+
     updateUser = async (email, user) =>{
         return await userModel.updateOne({ email }, user)
     }
 
-    createUser = async (newUser) =>{
-        return await userModel.create(newUser);
+    createUser = async (user) =>{
+        return await userModel.create(user);
     }  
 };

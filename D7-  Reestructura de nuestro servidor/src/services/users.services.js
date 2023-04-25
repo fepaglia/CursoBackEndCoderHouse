@@ -8,6 +8,11 @@ const saveUser = async (user) =>{
 const findUser = async (email) =>{
     const user = await USERSDAO.getUser(email);
     return user;
+};
+
+const getUserById = async (id) =>{
+    const userId = await USERSDAO.getUserById(id);
+    return userId
 }
 
 const updateUser = async (email, user) =>{
@@ -18,5 +23,6 @@ const updateUser = async (email, user) =>{
 export {
     saveUser,
     findUser,
-    updateUser
+    updateUser,
+    getUserById
 }

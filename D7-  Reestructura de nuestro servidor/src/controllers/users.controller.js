@@ -1,5 +1,4 @@
 import  {
-    saveUser as saveUserServices,
     findUser as findUserServices ,
     updateUser as updateUserServices
 } from '../services/users.services.js';
@@ -28,28 +27,7 @@ const updateUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-    try {
-      const {
-        first_name,
-        last_name,
-        email,
-        age,
-        password,
-      } = req.body;
-  
-      if (!first_name || !last_name || !email || !age || !password)
-        return res
-          .status(400)
-          .send({ status: "error", message: "Incomplete values" });
-  
-        await saveUserServices(
-        first_name,
-        last_name,
-        email,
-        age,
-        password
-      );
-  
+    try {  
       res.send({ status: "success", message: "user registered" });
     } catch (error) {
       console.log(error);
@@ -79,8 +57,9 @@ const login = async (req, res) => {
         age: req.user.age,
         email: req.user.email
     };
+    
 
-     res.send({ status: 'success', message: 'login success' });
+    res.send({ status: 'success', message: 'login success' });
 };
 
 const github = async (req,res)=>{
