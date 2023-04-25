@@ -14,6 +14,8 @@ import __dirname from './utils.js';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
+import './dao/dbConfig.js';
+
 const app = express();
 
 app.use(express.json());

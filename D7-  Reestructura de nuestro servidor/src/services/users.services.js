@@ -16,7 +16,7 @@ const getUserById = async (id) =>{
 }
 
 const updateUser = async (email, user) =>{
-    const update = await USERSDAO.saveUser(email, user);
+    const update = await USERSDAO.updateUser(email, user);
     return update;
 }
 

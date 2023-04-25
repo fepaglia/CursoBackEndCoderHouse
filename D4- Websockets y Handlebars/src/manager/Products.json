@@ -24,8 +24,7 @@
 		"thumbail": "sin imagen",
 		"code": "lecheentera",
 		"stock": 12,
-		"id": 4
-	},
+		"status": true	},
 	{
 		"title": "Cerveza",
 		"description": "porron 750",
@@ -33,8 +32,7 @@
 		"thumbail": "sin imagen",
 		"code": "quilmes",
 		"stock": 12,
-		"id": 5
-	},
+		"status": true	},
 	{
 		"title": "Terma",
 		"description": "hierbas serranas",
@@ -42,8 +40,7 @@
 		"thumbail": "sin imagen",
 		"code": "termaserranas",
 		"stock": 16,
-		"id": 6
-	},
+		"status": true	},
 	{
 		"title": "Chocolatada",
 		"description": "carton de 1lt",
@@ -51,8 +48,7 @@
 		"thumbail": "sin imagen",
 		"code": "chocolatada",
 		"stock": 12,
-		"id": 7
-	},
+		"status": true	},
 	{
 		"title": "Yogurt",
 		"description": "varios sabores",
@@ -60,8 +56,7 @@
 		"thumbail": "sin imagen",
 		"code": "yogurt",
 		"stock": 12,
-		"id": 8
-	},
+		"status": true	},
 	{
 		"title": "Agua saborizada",
 		"description": "varios sabores",
@@ -69,8 +64,7 @@
 		"thumbail": "sin imagen",
 		"code": "aguasaborizada",
 		"stock": 25,
-		"id": 9
-	},
+		"status": true	},
 	{
 		"title": "Champagne",
 		"description": "importado 750ml",
@@ -78,7 +72,7 @@
 		"thumbail": "sin imagen",
 		"code": "champagne",
 		"stock": 6,
-		"id": 10
+		"status": true
 	},
 	{
 		"title": "Fernet",
@@ -87,6 +81,6 @@
 		"thumbail": "sin imagen",
 		"code": "fernet",
 		"stock": 6,
-		"id": 11
+		"status": true
 	}
 ]

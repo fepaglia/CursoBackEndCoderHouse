@@ -2,6 +2,10 @@ import userModel from './models/users.model.js';
 
 export default class dbUsersManager {
     constructor(){}
+    
+    createUser = async (user) =>{
+        return await userModel.create(user);
+    }  
 
     getUser = async (email) =>{
         return await userModel.findOne({ email })
@@ -15,7 +19,4 @@ export default class dbUsersManager {
         return await userModel.updateOne({ email }, user)
     }
 
-    createUser = async (user) =>{
-        return await userModel.create(user);
-    }  
 };

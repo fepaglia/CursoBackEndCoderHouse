@@ -3,7 +3,7 @@ import { cartView, productsView, privateAccess, publicAccess } from '../../contr
 
 const router = Router();
 
-router.get('/products', privateAccess, productsView );
+router.get('/products', privateAccess, productsView);
 
 router.get('/carts/:cid', privateAccess , cartView);
 

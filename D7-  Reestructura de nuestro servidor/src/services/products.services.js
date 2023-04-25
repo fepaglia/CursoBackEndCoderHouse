@@ -1,7 +1,7 @@
 import { PRODUCTSDAO } from "../dao/index.js";
 
-const getProducts = async () =>{
-    const products = await PRODUCTSDAO.getProducts();
+const getProducts = async (limit, page, sort) =>{
+    const products = await PRODUCTSDAO.getProducts(limit, page, sort);
     return products;
 };
 
