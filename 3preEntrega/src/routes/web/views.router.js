@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import { cartView, productsView, privateAccess, publicAccess } from '../../controllers/views.controllers.js';
+import { cartView, productsView, realTimeProducts, privateAccess, publicAccess } from '../../controllers/views.controllers.js';
 
 const router = Router();
 
 router.get('/products', privateAccess, productsView);
 
 router.get('/carts/:cid', privateAccess , cartView);
+
+router.get('/realtimeproducts', privateAccess, realTimeProducts );
 
 router.get('/', publicAccess, async (req, res) => {
     res.redirect('/login');

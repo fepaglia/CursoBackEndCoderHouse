@@ -8,7 +8,8 @@ import {
     github,
     githubCallback,
     failLogin,
-    failRegister
+    failRegister,
+    current
 } from '../../controllers/users.controller.js';
 
 const router = Router();
@@ -37,5 +38,7 @@ router.get('/fail-register', failRegister);
 router.post('/reset', updateUser);
 
 router.get('/logout', logOut);
+
+router.get("/current", current);
 
 export default router;

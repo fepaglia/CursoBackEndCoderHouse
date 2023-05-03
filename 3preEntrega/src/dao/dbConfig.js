@@ -8,4 +8,4 @@ try {
     console.log('Conectado a BDD');
 } catch (error) {
     console.log(error);
-}
+};

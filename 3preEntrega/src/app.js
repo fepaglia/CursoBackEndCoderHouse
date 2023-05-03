@@ -4,7 +4,7 @@ import handlebars from 'express-handlebars';
 
 import MongoStore from 'connect-mongo';
 
-import sessionsRouter from './routes/api/sessions.router.js'
+import usersRouter from './routes/api/users.router.js'
 import productsRouter from './routes/api/products.router.js';
 import cartsRouter from './routes/api/carts.router.js';
 import viewsRouter from './routes/web/views.router.js';
@@ -15,6 +15,7 @@ import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
 import './dao/dbConfig.js';
+import config from './config/config.js';
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(express.static(`${__dirname}/public`));
 //Configuracion sesion:
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://admin1:1234@cluster0.qpiwfcg.mongodb.net/?retryWrites=true&w=majority',
+        mongoUrl: config.mongoUrl,
         mongoOptions: { useNewUrlParser: true },
         ttl: 3600
        }),
@@ -46,8 +47,8 @@ app.use(passport.session());
 
 //
 app.use('/api/products', productsRouter);
-app.use('/api/sessions', sessionsRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
 
-app.listen(8080, ()=> console.log("Server On. D7-  Reestructura de nuestro servidor"));
+app.listen(8080, ()=> console.log("3ra Pre Entrega"));

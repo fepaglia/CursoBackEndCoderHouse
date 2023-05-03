@@ -3,6 +3,8 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import userModel from '../dao/models/users.model.js';
 import { createHash, isValidPassword } from '../utils.js';
+import { transport } from "../config/nodeMailer.config.js";
+import __dirname  from '../utils.js';
 
 const LocalStrategy = local.Strategy;
 
@@ -32,6 +34,15 @@ const initializePassport = () =>{
             };
 
             const result = await userModel.create( newUser );
+ 
+            await transport.sendMail({
+
+                from: '3PreEntrega <proyectoCoder@gmail.com>',
+                to: newUser.email,
+                subject: 'Aviso de registro',
+                html: `<div><h1>Bienvenido a la aplicacion  en Contruccion ${first_name}/h1></div>`,
+                attachments: []
+            });
 
             return done(null, result);
 

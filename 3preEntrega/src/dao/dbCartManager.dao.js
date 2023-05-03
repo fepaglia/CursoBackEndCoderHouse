@@ -17,10 +17,6 @@ export default class dBCartManager {
         return await cartModel.updateOne({_id: cid}, updateCart);
     };
 
-    deleteCart = async (cid) =>{
-        return await cartModel.deleteOne({_id: cid})
-    };
-
     deleteAllProducts = async (cid) => {
         return await cartModel.updateOne({ _id: cid }, { products: [] });
     };

@@ -77,7 +77,11 @@ const failLogin = async (req,res)=>{
 
 const failRegister = async  (req,res)=>{
     res.send({status: 'error', message:'register-failed'});
-}
+};
+
+const current = async (req, res) => {
+    res.send({ user: req.user });
+  };
 
 export {
     updateUser,
@@ -87,5 +91,6 @@ export {
     github,
     githubCallback,
     failLogin,
-    failRegister
-}
+    failRegister,
+    current
+};
