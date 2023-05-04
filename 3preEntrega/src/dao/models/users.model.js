@@ -11,7 +11,17 @@ const userSchema = new Schema(
             unique: true,
             required: true
         },
-        cart: String,
+        carts:  {
+            type: [
+                {
+                    cart: {
+                        type: Schema.Types.ObjectId,
+                        ref:'carts'
+                    }
+                }
+            ],
+            default: []
+        },
         role: {
             type: String,
             default: "user"
@@ -20,6 +30,10 @@ const userSchema = new Schema(
         password: String
     }
 );
+
+userSchema.pre('find', function() {
+    this.populate('carts.cart')
+})
 
 const userModel = model(userCollection, userSchema);
 

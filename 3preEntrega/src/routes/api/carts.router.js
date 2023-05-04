@@ -14,7 +14,7 @@ const router = Router();
 router.delete('/:cid/products/:pid', deleteOneProdofCart);
 
 //Agregar un producto de l carrito:
-router.put('/:cid/products/:pid', authorization('user'), updateCart);
+router.put('/:cid/products/:pid', updateCart);
 
 //Efectuar la compra:
 router.post('/:cid/purchase', )

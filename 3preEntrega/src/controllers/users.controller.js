@@ -7,9 +7,6 @@ import { createHash } from '../utils.js';
 const updateUser = async (req, res) => {
     const { email, password } = req.body;
   
-    if(!email || !password) return res.status(400)
-      .send({status: 'error', message: 'Incomplete Values'});
-  
     try {                     
         const user = await findUserServices( email );
   

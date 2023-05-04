@@ -9,10 +9,11 @@ const productsView = async (req,res)=>{
 
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
         const products = docs;
-
+        const user = req.user;
+        console.log(user);
         res.render('products', {
             products,
-            user: req.session.user.first_name,
+            user: req.user,
             hasPrevPage, 
             hasNextPage,
             nextPage, 
@@ -37,7 +38,12 @@ const cartView = async (req, res) =>{
         console.log(error);
         res.status(500).send({ error });
     }
+};
+
+const realTimeProducts =async (req,res)=>{
+    res.render('realTimeProducts', { style: 'realTimeProducts.css' });
 }
+
 
 const publicAccess = (req, res, next) =>{
     if(req.session.user) return res.redirect('/products');
@@ -53,5 +59,6 @@ export {
     cartView,
     productsView,
     publicAccess,
-    privateAccess
+    privateAccess,
+    realTimeProducts
 }

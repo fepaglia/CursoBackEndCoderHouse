@@ -5,11 +5,11 @@ import userModel from '../dao/models/users.model.js';
 import { createHash, isValidPassword } from '../utils.js';
 import { transport } from "../config/nodeMailer.config.js";
 import __dirname  from '../utils.js';
+import cartModel from '../dao/models/carts.model.js';
 
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () =>{
-
 //LOCAL
     passport.use('register', new LocalStrategy({
         passReqToCallback: true,
@@ -30,7 +30,9 @@ const initializePassport = () =>{
                 last_name,
                 email,
                 age,
-                password: createHash(password)
+                password: createHash(password),
+                role: email.includes('admin') && password.includes('admin') ? 'admin' : 'user',
+                carts: await cartModel.create({products: [], user: email})
             };
 
             const result = await userModel.create( newUser );
