@@ -41,7 +41,23 @@ const cartView = async (req, res) =>{
 };
 
 const realTimeProducts =async (req,res)=>{
-    res.render('realTimeProducts', { style: 'realTimeProducts.css' });
+    const { limit = 10 } = req.query;
+    const { page = 1 } = req.query;
+    const sort = req.query.sort;
+
+    const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
+    const products = docs;
+    const user = req.user;
+    console.log(user);
+    res.render('realTimeProducts', {
+        products,
+        user: req.user,
+        hasPrevPage, 
+        hasNextPage,
+        nextPage, 
+        prevPage, 
+        style: 'realTimeProducts.css' 
+    });
 }
 
 

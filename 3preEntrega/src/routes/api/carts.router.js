@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import authorization from '../../utils.js';
 import { 
     createCart,
     getCartById,
@@ -17,7 +16,7 @@ router.delete('/:cid/products/:pid', deleteOneProdofCart);
 router.put('/:cid/products/:pid', updateCart);
 
 //Efectuar la compra:
-router.post('/:cid/purchase', )
+router.post('/:cid/purchase',  )
 
 //Vaciar un carrito:
 router.put('/:cid', emptyCart);
