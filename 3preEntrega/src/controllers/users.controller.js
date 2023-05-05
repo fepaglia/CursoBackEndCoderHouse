@@ -51,15 +51,9 @@ const login = async (req, res) => {
     if(!req.user) return res.status(400)
         .send({status: 'error', message: 'Invalid Credentials'});
 
-    req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name, 
-        age: req.user.age,
-        email: req.user.email
-    };
-    
-
-    res.send({ status: 'success', message: 'login success' });
+    const accessToken = await generateToken(req.user);
+    console.log(accessToken);
+    res.send({ status: 'success',acces_token: accessToken, message: 'login success' });
 };
 
 const github = async (req,res)=>{
@@ -79,6 +73,10 @@ const failRegister = async  (req,res)=>{
     res.send({status: 'error', message:'register-failed'});
 }
 
+const current = async (req,res) =>{
+     res.send({status: 'success', payload: req.user});
+}
+
 export {
     updateUser,
     createUser,
@@ -87,5 +85,6 @@ export {
     github,
     githubCallback,
     failLogin,
-    failRegister
+    failRegister,
+    current
 }
