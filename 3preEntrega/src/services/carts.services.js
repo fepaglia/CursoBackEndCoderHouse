@@ -1,14 +1,18 @@
 import { CARTSDAO } from "../dao/index.js";
 
+const getCarts = async () =>{
+    const carts = await CARTSDAO.getCarts();
+    return carts.map(c => c.toObject());
+};
 
-const createCart = async (newCart) =>{
-    const result = await CARTSDAO.createCart(newCart);
-    return result;
+const addCart = async (newCart) =>{
+    const cartAdded = await CARTSDAO.addCart(newCart);
+    return cartAdded;
 };
 
 const getCartById = async(cid) =>{
-    const result = await CARTSDAO.getCartById(cid)
-    return result;
+    const searchCart = await CARTSDAO.getCartById(cid)
+    return searchCart;
 };
 
 const updateCart = async (id, updateCart) =>{
@@ -16,20 +20,21 @@ const updateCart = async (id, updateCart) =>{
     return update;
 };
 
-const emptyCart = async (id) =>{
-    const result = await CARTSDAO.deleteAllProducts(id)
+const deleteCart = async (id) =>{
+    const deletedCart = await CARTSDAO.deleteCart(id)
+    return deletedCart;
+};
+
+const emptyCart = async (cid) => {
+    const result = await CARTSDAO.emptyCart(cid);
     return result;
 };
 
-const deleteOneProduct = async (cid, pid) =>{
-    const deleteOne = await CARTSDAO.deleteOneProduct(cid, pid);
-    return deleteOne;
-};
-
 export {
-    createCart,
+    getCarts,
+    addCart,
     getCartById,
     updateCart,
-    emptyCart,
-    deleteOneProduct
+    deleteCart,
+    emptyCart
 };

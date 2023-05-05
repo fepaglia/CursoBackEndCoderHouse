@@ -7,6 +7,9 @@ import { createHash } from '../utils.js';
 const updateUser = async (req, res) => {
     const { email, password } = req.body;
   
+    if(!email || !password) return res.status(400)
+      .send({status: 'error', message: 'Incomplete Values'});
+  
     try {                     
         const user = await findUserServices( email );
   
@@ -74,11 +77,7 @@ const failLogin = async (req,res)=>{
 
 const failRegister = async  (req,res)=>{
     res.send({status: 'error', message:'register-failed'});
-};
-
-const current = async (req, res) => {
-    res.send({ user: req.user });
-  };
+}
 
 export {
     updateUser,
@@ -88,6 +87,5 @@ export {
     github,
     githubCallback,
     failLogin,
-    failRegister,
-    current
-};
+    failRegister
+}

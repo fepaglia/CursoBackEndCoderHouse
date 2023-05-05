@@ -1,6 +1,6 @@
 import { USERSDAO } from '../dao/index.js';
 
-const createUser = async (user) =>{
+const saveUser = async (user) =>{
     await USERSDAO.createUser(user);
     return user
 };
@@ -21,8 +21,8 @@ const updateUser = async (email, user) =>{
 }
 
 export {
-    createUser,
+    saveUser,
     findUser,
     updateUser,
     getUserById
-};
+}

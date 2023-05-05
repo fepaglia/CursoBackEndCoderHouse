@@ -20,14 +20,9 @@ const updateProduct = async (id, updateProduct) =>{
     return prodMod;
 };
 
-const deleteProduct = async (pid) =>{
-    const eraseProd = await PRODUCTSDAO.deleteProduct(pid);
-
-    const actualProds = await PRODUCTSDAO.getProducts();
-
-    io.emit('realTimeProducts', actualProds);
-
-    return eraseProd;
+const deleteProduct = async (id) =>{
+    const deletedProduct = await PRODUCTSDAO.deleteProduct(id)
+    return deletedProduct;
 };
 
 export {

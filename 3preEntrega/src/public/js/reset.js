@@ -8,7 +8,7 @@ form.addEventListener('submit', e => {
 
     data.forEach((value, key) => obj[key] = value);
 
-    fetch('/api/users/reset', {
+    fetch('/api/sessions/reset', {
        method: 'POST',
        body: JSON.stringify(obj),
        headers: {

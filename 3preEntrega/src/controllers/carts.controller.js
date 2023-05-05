@@ -1,16 +1,29 @@
 import {
-    createCart as addCartServices, 
+    getCarts as getCartsServices,
+    addCart as addCartServices, 
     getCartById as getCartByIdServices, 
     updateCart as updateCartServices,
-    deleteOneProduct as deleteOneProductCartServices, 
+    deleteCart as deleteCartServices, 
     emptyCart as emptyCartServices
 } from '../services/carts.services.js';
 import { getProductsById as getProductsByIdServices} from '../services/products.services.js';
 
-export const createCart = async (req,res) =>{
+const getCarts = async (req,res) =>{
+    try {
+        const carts = await getCartsServices();
+        res.send({ result: 'success', payload: carts});
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error });
+    }
+    
+};
+
+const addCart = async (req,res) =>{
     try {
         const newCart = await addCartServices();
-        res.send({status: "success", message: "Cart created successfully", newCart});
+        res.send({result: 'success', payload: newCart});
 
     } catch (error) {
         console.log(error);
@@ -18,64 +31,67 @@ export const createCart = async (req,res) =>{
     }
 };
 
- export const getCartById = async (req,res) =>{
+const getCartById = async (req,res) =>{
     const id = req.params.cid;
     try {
         const cart = await getCartByIdServices(id);
+        res.send({result: 'success', payload: cart});
         
-        if(!cart){
-            return res.status(404).send({ status: "error", message: "Cart not found" });
-        }else {
-            res.send({status: 'success', cart});
-        }
-       
     } catch (error) {
         console.log(error);
         res.status(500).send({ error });
     }
 };
 
-export const updateCart =async (req,res) =>{
+const updateCart =async (req,res) =>{
     const prodId = req.params.pid;
     const cartId = req.params.cid;
     try {
         const cart = await getCartByIdServices(cartId);
+        //Importarlo desde el DAO de PRODUCTOS
         const prod = await getProductsByIdServices(prodId);
 
-        if (!cart || !prod) {
-            return res.status(400).send({ status: "error", message: "Invalid id" });
-        }
-
         cart.products.push({pId: prod._id});
+        console.log(cart);
 
         const update = await updateCartServices(cartId, cart)
-        res.send({ status: "success", message: "Product added.", update });
+        res.send({payload: update})
     } catch (error) {
         console.log(error);
         res.status(500).send({ error });
     }
 };
 
+const deleteCart = async (req, res)=>{
+    const cid = req.params.cid;
+    try {
+        const deleteCart = await deleteCartServices(cid);
+        res.send({result: 'success', payload: deleteCart})
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error });
+    }
+};
 
-export const deleteOneProdofCart = async (req,res) =>{
+const deleteOneProdofCart = async (req,res) =>{
     
     const prodId = req.params.pid;
     const cartId = req.params.cid;
     try {
-       const deleteOne = await deleteOneProductCartServices(cartId, prodId);
+        const cart = await getCartByIdServices(cartId);
 
-       if (!cartId || !prodId) {
-            return res.status(400).send({ status: "error", message: "Invalid id" });
-        };
+        cart.products = cart.products.filter(product => product._id !== prodId);
 
-       res.send({result: 'success', deleteOne})
+        await cart.save()
+        
     } catch (error) {
         console.log(error);
         res.status(500).send({ error });
     }
 };
 
-export const emptyCart = async (req,res)=>{
+const emptyCart = async (req,res)=>{
     const id = req.params.cid;
     try {
         const emptyCart = await emptyCartServices(id);
@@ -84,4 +100,15 @@ export const emptyCart = async (req,res)=>{
         console.log(error);
         res.status(500).send({ error });
     }
+};
+
+export {
+    getCarts,
+    addCart,
+    getCartById,
+    updateCart,
+    deleteCart,
+    deleteOneProdofCart,
+    emptyCart,
+
 };

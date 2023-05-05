@@ -1,7 +1,10 @@
 import express from 'express';
+import session from 'express-session';
 import handlebars from 'express-handlebars';
 
-import usersRouter from './routes/api/users.router.js'
+import MongoStore from 'connect-mongo';
+
+import sessionsRouter from './routes/api/sessions.router.js'
 import productsRouter from './routes/api/products.router.js';
 import cartsRouter from './routes/api/carts.router.js';
 import viewsRouter from './routes/web/views.router.js';
@@ -12,32 +15,39 @@ import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
 import './dao/dbConfig.js';
-import sessionExpress from './config/session.config.js';
 
 const app = express();
 
-//Middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(`${__dirname}/public`));
 
-//Session:
-sessionExpress(app);
+//Configuracion sesion:
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://admin1:1234@cluster0.qpiwfcg.mongodb.net/?retryWrites=true&w=majority',
+        mongoOptions: { useNewUrlParser: true },
+        ttl: 3600
+       }),
+    secret: 'secretCoder',  
+    resave: true,
+    saveUninitialized: true
+}))
 
-//Handlebars:
+//Configuracion handlebars:
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars')
 
-//Passport:
+//Configuracion passport:
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Routers
+//
 app.use('/api/products', productsRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/sessions', sessionsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
 
-export const server = app.listen(8080, ()=> console.log("3ra Pre Entrega"));
+app.listen(8080, ()=> console.log("Server On. D7-  Reestructura de nuestro servidor"));

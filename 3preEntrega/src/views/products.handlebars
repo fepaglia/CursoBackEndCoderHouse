@@ -1,9 +1,8 @@
 <div>
     <header>
         <h1>Product manager</h1>
-        <p>Bienvenido {{user.name}}!</p>
-        <p>Role: {{user.role}}</p>
-        <a href="/api/users/logout"><button>Salir de la sesion</button></a>
+        <p>Bienvenido {{user.first_name}}!</p>
+        <a href="/api/sessions/logout"><button>Salir de la sesion</button></a>
     </header>
 
     <div class="container">
@@ -18,7 +17,7 @@
                 <div><span>Status: </span><p>{{status}}</p></div>
                 <div><span>Stock: </span><p>{{stock}}</p></div>
 
-                <button onclick="addToCart('{{user.cart}}','{{_id}}')">Agregar al Carrito</button>
+                <button>Agregar al Carrito</button>
             </div>  
             {{/each}}
         {{/if}}
@@ -32,4 +31,3 @@
         {{/if}}
     </div>
 </div>
-<script src="../public/js/products.js" ></script>

@@ -3,13 +3,11 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import userModel from '../dao/models/users.model.js';
 import { createHash, isValidPassword } from '../utils.js';
-import { transport } from "../config/nodeMailer.config.js";
-import __dirname  from '../utils.js';
-import cartModel from '../dao/models/carts.model.js';
 
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () =>{
+
 //LOCAL
     passport.use('register', new LocalStrategy({
         passReqToCallback: true,
@@ -30,21 +28,10 @@ const initializePassport = () =>{
                 last_name,
                 email,
                 age,
-                password: createHash(password),
-                role: email.includes('admin') && password.includes('admin') ? 'admin' : 'user',
-                carts: await cartModel.create({products: [], user: email})
+                password: createHash(password)
             };
 
             const result = await userModel.create( newUser );
- 
-            await transport.sendMail({
-
-                from: '3PreEntrega <proyectoCoder@gmail.com>',
-                to: newUser.email,
-                subject: 'Aviso de registro',
-                html: `<div><h1>Bienvenido a la aplicacion  en Contruccion ${first_name}/h1></div>`,
-                attachments: []
-            });
 
             return done(null, result);
 
