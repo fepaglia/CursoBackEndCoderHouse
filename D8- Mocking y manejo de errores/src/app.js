@@ -16,6 +16,11 @@ import initializePassport from './config/passport.config.js';
 
 import './config/dbMongo.config.js';
 
+import { Server } from 'socket.io';
+import errorHandler from './middlewares/errors/index.js';
+
+import { PRODUCTSDAO } from './dao/index.js';
+
 const app = express();
 
 app.use(express.json());
@@ -50,4 +55,20 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
 
-app.listen(8080, ()=> console.log("Server On. D8-  Mocking y manejo de errores"));
+app.use(errorHandler);
+
+const server = app.listen(8080, ()=> console.log("Server On. D8-  Mocking y manejo de errores"));
+
+const io = new Server(server)
+
+io.on('connection', socket =>{
+    console.log("Conexion establecida");
+    
+    socket.on('product', async (data) =>{
+        console.log("Soy data:",data);
+        await PRODUCTSDAO.addProduct( data.title, data.description, data.price, data.thumbnails, data.status, data.code, data.stock );
+
+        const products = await PRODUCTSDAO.getProducts();
+        io.emit('allProds', products);
+    })
+});

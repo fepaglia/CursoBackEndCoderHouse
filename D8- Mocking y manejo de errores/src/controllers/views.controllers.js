@@ -1,6 +1,10 @@
 import { getProducts as getProductsServices, getMockingProducts as getMockingProductsServices} from '../services/products.services.js';
 import { getCartById as getCartByIdServices } from '../services/carts.services.js'
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { generateProductsErrorInfo } from '../services/errors/info.js';
+
 
 const productsView = async (req,res)=>{
     try {
@@ -63,6 +67,31 @@ const mockingProductsView = async (req, res) =>{
     }
 
 }
+
+
+export const liveProduct = async (req,res, next)=>{
+
+    const {title,description,price,thumbnail,status,code,stock} = req.body;
+
+    
+      //CUSTOM ERROR:
+      if(!title || !description || !price || !status || !code || !stock) {
+        const err =  CustomError.createError({
+            name: 'Product Error',
+            cause: generateProductsErrorInfo({
+                title,description,price,status,code,stock
+            }),
+            code: EErrors.INCOMPLETE_FIELDS_PRODUCTS_ERROR,
+            message: 'Error tratando de crear un producto'
+        });
+        throw err;
+      };
+
+    next();
+    res.render('realTimeProducts', { style: 'realtimeproducts.css' });
+}
+    
+
 
 export {
     cartView,

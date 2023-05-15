@@ -4,6 +4,12 @@ import  {
 } from '../services/users.services.js';
 import { createHash } from '../utils.js';
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { generateUserErrorInfo } from '../services/errors/info.js';
+
+
+
 const updateUser = async (req, res) => {
     const { email, password } = req.body;
   
@@ -27,6 +33,19 @@ const updateUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
+    const { first_name, last_name, email, age } = req.body;
+
+        if(!first_name || !last_name || !email || !age) {
+            throw CustomError.createError({
+                name: 'User Error',
+                cause: generateUserErrorInfo({
+                    first_name, last_name, email, age
+                }),
+                code: EErrors.INCOMPLETE_FIELDS_USER_REGISTER_ERROR,
+                message: 'Error tratando de crear un usuario'
+            });
+        };
+
     try {  
       res.send({ status: "success", message: "user registered" });
     } catch (error) {

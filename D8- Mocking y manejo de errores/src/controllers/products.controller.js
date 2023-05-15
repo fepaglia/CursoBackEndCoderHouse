@@ -6,6 +6,11 @@ import {
     deleteProduct as deleteProductServices
 } from '../services/products.services.js';
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { generateProductsErrorInfo } from '../services/errors/info.js';
+
+
 const getProducts = async (req, res)=>{
     try {
         const products = await getProductsServices();
@@ -19,7 +24,21 @@ const getProducts = async (req, res)=>{
 
 const addProduct =  async (req,res) =>{
     const {title,description,price,thumbnail,status,code,stock} = req.body;
+    
+    //CUSTOM ERROR:
+            if(!title || !description || !price || !status || !code || !stock) {
+                throw CustomError.createError({
+                    name: 'Product Error',
+                    cause: generateProductsErrorInfo({
+                        title,description,price,status,code,stock
+                    }),
+                    code: EErrors.INCOMPLETE_FIELDS_PRODUCTS_ERROR,
+                    message: 'Error tratando de crear un producto'
+                });
+            };
+    
     try {
+
         const result = await addProductServices(
         {
             title,
