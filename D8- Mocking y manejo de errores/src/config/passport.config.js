@@ -28,7 +28,7 @@ const initializePassport = () =>{
                 last_name,
                 email,
                 age,
-                cart:[],
+                carts:[],
                 password: createHash(password)
             };
 

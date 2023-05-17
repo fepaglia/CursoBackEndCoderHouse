@@ -74,8 +74,12 @@ const login = async (req, res) => {
         first_name: req.user.first_name,
         last_name: req.user.last_name, 
         age: req.user.age,
-        email: req.user.email
+        email: req.user.email,
+        role: req.user.role,
+        carts: req.user.carts
     };
+
+    console.log(req.session.user.carts)
 
     res.send({ status: 'success', message: 'login success' });
 };

@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import { cartView, productsView, privateAccess, publicAccess, mockingProductsView } from '../../controllers/views.controllers.js';
+import { cartView, productsView, productDetailView , privateAccess, publicAccess, mockingProductsView } from '../../controllers/views.controllers.js';
 import { liveProduct } from '../../controllers/views.controllers.js';
 
 
 const router = Router();
 
 router.get('/products', privateAccess, productsView);
+
+router.get('/products/:id', privateAccess, productDetailView);
 
 router.get('/carts/:cid', privateAccess , cartView);
 
@@ -30,7 +32,7 @@ router.get('/', privateAccess, (req, res) => {
 });
 
 
-router.get('/mockingproducts', privateAccess, mockingProductsView);
+router.get('/mockingproducts', publicAccess, mockingProductsView);
 
 router.get('/realtimeproducts', liveProduct)
 

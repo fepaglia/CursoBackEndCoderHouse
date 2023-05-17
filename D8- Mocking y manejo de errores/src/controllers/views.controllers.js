@@ -1,4 +1,4 @@
-import { getProducts as getProductsServices, getMockingProducts as getMockingProductsServices} from '../services/products.services.js';
+import { getProducts as getProductsServices, getProductsById as getProductsByIdServices, getMockingProducts as getMockingProductsServices} from '../services/products.services.js';
 import { getCartById as getCartByIdServices } from '../services/carts.services.js'
 
 import CustomError from '../services/errors/CustomError.js';
@@ -15,11 +15,14 @@ const productsView = async (req,res)=>{
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
         const products = docs;
 
-        const user = req.user;
+        const user = req.session.user;
+
+        const cartId= user.carts[0]._id;
 
         res.render('products', {
             products,
             user,
+            cartId,
             hasPrevPage, 
             hasNextPage,
             nextPage, 
@@ -33,12 +36,32 @@ const productsView = async (req,res)=>{
     }
 };
 
+const productDetailView = async (req, res) =>{
+    const id = req.params.id;
+    try {
+        
+        const product = await getProductsByIdServices(id);
+
+        res.render('productView', {product, style: 'productdetail.css'});
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error });
+    }
+};
+
+
 const cartView = async (req, res) =>{
     const id = req.params.cid;
     try {
         let cart = await getCartByIdServices(id);
 
-        res.render('carts', cart);
+        console.log("CARRITO",cart.id);
+        console.log(cart)
+
+        const user = req.session.user;
+
+        res.render('carts', {cart, user});
         
     } catch (error) {
         console.log(error);
@@ -61,7 +84,7 @@ const mockingProductsView = async (req, res) =>{
     try {
         let products = await getMockingProductsServices();
         
-        res.render('products', {products, style: 'products.css'})
+        res.render('mocking', {products, style: 'products.css'})
     } catch (error) {
         console.log(error)
     }
@@ -88,7 +111,7 @@ export const liveProduct = async (req,res, next)=>{
       };
 
     next();
-    res.render('realTimeProducts', { style: 'realtimeproducts.css' });
+    res.render('mocking', { style: 'mocking.css' });
 }
     
 
@@ -96,6 +119,7 @@ export const liveProduct = async (req,res, next)=>{
 export {
     cartView,
     productsView,
+    productDetailView,
     publicAccess,
     privateAccess,
     mockingProductsView
