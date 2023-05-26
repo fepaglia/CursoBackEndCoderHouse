@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export default class ProductManager {
+class ProductManager {
     constructor(){
         this.products = [];
         this.path = './Productos.json' // Ruta al archivo donde queremos grabar los datos.
@@ -19,7 +19,7 @@ export default class ProductManager {
         try {
             const rawdata = await fs.promises.readFile(this.path, 'utf-8')
             const data = JSON.parse(rawdata, null, "\n")
-            return data;
+            return data, console.log(data);
              
         } catch (error) {
             console.log(error)
@@ -81,7 +81,7 @@ export default class ProductManager {
             if (!data){
                 throw new Error("Not found")
             }else {
-                return data;
+                return data, console.log(data);
             }
         } catch (error) {
             return error.message
@@ -131,3 +131,31 @@ deleteProduct = async(id)=>{
 }
 }
 
+// Creamos la instancia de la clase
+const productManager = new ProductManager();
+
+//Devuelve la lista de productos. De no existir el archivo crea uno vacio.
+productManager.getProducts();
+
+//Agregamos productos de a uno por vez:
+
+//productManager.addProduct("producto prueba1","este es un producto prueba1", 1000, "sin imagen", "1", 25); 
+//productManager.addProduct("producto prueba2","este es un producto prueba2", 1000, "sin imagen", "2", 25); 
+//productManager.addProduct("producto prueba3","este es un producto prueba3", 1000, "sin imagen", "3", 25);
+
+//Encuentra el producto
+//productManager.getProductsById() 
+
+//Actualiza el producto
+// productManager.updateProduct(0 ,{
+//     title: "updated product",
+//     description: "probando Cambios",
+//     price: 550,
+//     thumbnail: "sin imagen",
+//     code: "5",
+//     stock: 1
+//    });
+
+
+//Elimina el producto
+//productManager.deleteProduct();
