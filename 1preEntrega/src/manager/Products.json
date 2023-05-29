@@ -9,8 +9,26 @@
 		"id": 0
 	},
 	{
-		"title": "Vino",
+		"title": "Vino Blanco",
+		"description": "blanco",
+		"price": 1000,
+		"thumbail": "sin imagen",
+		"code": "blanco",
+		"stock": 24,
+		"id": 1
+	},
+	{
+		"title": "Vino Damajuana",
 		"description": "tinto o blanco",
+		"price": 3000,
+		"thumbail": "sin imagen",
+		"code": "2lts",
+		"stock": 2,
+		"id": 2
+	},
+	{
+		"title": "Vino Tinto",
+		"description": "tinto",
 		"price": 1000,
 		"thumbail": "sin imagen",
 		"code": "vino750ml",

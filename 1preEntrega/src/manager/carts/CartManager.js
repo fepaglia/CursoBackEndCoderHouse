@@ -15,6 +15,7 @@ export default class CartManager {
             cart.id = 0;
         } else {
             cart.id = data[data.length -1].id +1;
+            console.log(cart)
             return cart;
         }    
     }
@@ -25,7 +26,7 @@ export default class CartManager {
         let rawdata = await fs.promises.readFile(this.cartPath, 'utf-8');
         let data = JSON.parse(rawdata, null, "\n");
         
-        this.addID(cart);
+        await this.addID(cart);
         data.push(cart);
 
         let newCart= data;
@@ -58,7 +59,7 @@ export default class CartManager {
             data.map((object) => {
                 if (cId === object.id) {
                   const index = object.products.findIndex(p => p.id === product.id);
-              
+
                   if (index >= 0) {
                     object.products[index].quantity += 1;
                   } else {
