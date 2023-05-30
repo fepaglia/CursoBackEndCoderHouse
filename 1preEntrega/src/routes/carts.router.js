@@ -33,5 +33,10 @@ router.post('/', async (req,res)=>{
 })
 
 
+router.get('/', async (req,res) =>{
+    const carts = await cartmanager.getCarts();
+    res.send(carts)
+})
+
 
 export default router;

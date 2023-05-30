@@ -5,7 +5,7 @@ const addProduct = document.getElementById('addProduct');
 const outProds = document.getElementById('liveProducts');
 
 //Enviamos
-addProduct.addEventListener('click', evento =>{
+addProduct.addEventListener('submit', evento =>{
   evento.preventDefault();
   const newProduct = {
     title: formulario.title.value,

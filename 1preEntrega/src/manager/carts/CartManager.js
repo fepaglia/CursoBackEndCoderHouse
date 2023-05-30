@@ -74,4 +74,15 @@ export default class CartManager {
             return error.message;
         }    
     }
+
+    getCarts = async () => {
+        try {
+            const rawdata = await fs.promises.readFile(this.cartPath, 'utf-8')
+            const data = JSON.parse(rawdata, null, "\n");
+            return data;
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
