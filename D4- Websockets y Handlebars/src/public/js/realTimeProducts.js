@@ -1,29 +1,39 @@
 const socket = io();
 
-const formulario = document.getElementById('formulario');
-const addProduct = document.getElementById('addProduct');
+const form = document.getElementById('productForm');
 const outProds = document.getElementById('liveProducts');
 
-//Enviamos
-addProduct.addEventListener('submit', evento =>{
-  evento.preventDefault();
-  const newProduct = {
-    title: formulario.title.value,
-    description: formulario.description.value,
-    price: formulario.price.value,
-    status: formulario.status.value,
-    thumbnails: formulario.thumbnails.value,
-    code: formulario.code.value,
-    stock: formulario.stock.value
-  };
+document.addEventListener('DOMContentLoaded', () => {
+  form.addEventListener('submit', e => {
+    e.preventDefault(); 
+    const product = new FormData(form);
+
+    const obj = {};
+    product.forEach((value, key) => obj[key] = value);
   
-  socket.emit('product', newProduct);
+    socket.emit('client:createProduct', obj);
+  
+    console.log(obj);
+  });
+
+  const liveProducts = document.getElementById('liveProducts');
+  liveProducts.addEventListener('click', e => {
+    if (e.target.matches('#eliminar')) {
+      e.preventDefault();
+      const id = e.target.dataset.id;
+  
+      console.log("enviando id desde el cliente", id);
+      socket.emit('client:deleteProd', id);
+    }
+  });
 });
 
+
+
 //Recibimos
-socket.on('allProds', data =>{
-  let products = ''
-  data.forEach(product =>{
+socket.on('server:allProds', allProducts => {
+  let products = [];
+  allProducts.forEach(product => {
     products +=  `
     <div class="prodBox">
       <div><span>ID: </span><p>${product.id}</p></div>
@@ -34,9 +44,9 @@ socket.on('allProds', data =>{
       <div><span>Status: </span><p>${product.status}</p></div>
       <div><span>Status: </span><p>${product.code}</p></div>
       <div><span>Stock: </span><p>${product.stock}</p></div>
+      <button id="eliminar" type="submit" data-id="${product.id}">Eliminar</button>
     </div>
     `;
     outProds.innerHTML = products;
   });
-
 });

@@ -19,25 +19,35 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
 
-app.use('/api/products' , productsRouter );
+app.use('/', productsRouter );
 app.use('/realtimeproducts', viewsRouter );
 
 
-const server = app.listen(8080, ()=> console.log("Server on 8080, D4 Websocket y Handlebars"));
+const httpServer = app.listen(8080, ()=> console.log("Server on 8080, D4 Websocket y Handlebars"));
 
-const io = new Server(server)
+const socketServer = new Server(httpServer);
 
 const productmanager = new ProductManager();
 
-
-io.on('connection', socket =>{
-    console.log("Conexion establecida");
+socketServer.on('connection', async socket =>{
+    console.log("Conexion establecida desdde el servidor");
     
-    socket.on('product', async (data) =>{
-        console.log("Soy data:",data);
-        await productmanager.addProduct( data.title, data.description, data.price, data.thumbnails, data.status, data.code, data.stock );
-
+    socket.on('client:createProduct', async newProd =>{
+        console.log("Nuevo producto agregado:", newProd);
+        await productmanager.addProduct( newProd.title, newProd.description, newProd.price, newProd.thumbnails, newProd.status, newProd.code, newProd.stock );
+        
         const products = await productmanager.getProducts();
-        io.emit('allProds', products);
+        socketServer.emit('server:allProds', products);
+   
     })
+    
+    socket.on('client:deleteProd', async prodID =>{
+        const id= Number(prodID);
+
+        await productmanager.deleteProduct(id).then(async ()=>{
+        const products = await productmanager.getProducts();
+        socketServer.emit('server:allProds', products)});
+    })
+
+
 });

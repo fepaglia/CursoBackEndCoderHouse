@@ -3,7 +3,7 @@
         <h1>Product manager con Websockets</h1>
     </header>
     <div class="container">
-        <form id="formulario">
+        <form id="productForm">
             <h2>Carga de productos</h2>
             <div>
                 <label for="title">Title:  </label>
@@ -38,11 +38,26 @@
                 <input type="number" id="stock" name="stock"><br>
             </div>
 
-            <input id="addProduct"  type="submit" value="Agregar Producto">
+            <input type="submit" value="Agregar Producto">
         </form>
 
         <div id="liveProducts">
-           
+            {{#if products }}
+                {{#each products}}
+                    <div class="prodBox">
+                        <div><span>ID: </span><p>{{id}}</p></div>
+                        <div><span>Nombre: </span><p>{{title}}</p></div>
+                        <div><span>Precio: </span><p>{{price}}</p></div>
+                        <div><span>Descripcion: </span><p>{{description}}</p></div>
+                        <div><span>Thumbnails: </span><p>{{thumbnails}}</p></div>
+                        <div><span>Status: </span><p>{{status}}</p></div>
+                        <div><span>Stock: </span><p>{{stock}}</p></div>
+
+                       <button id="eliminar" type="submit" data-id="{{product.id}}">Eliminar</button>
+                        {{!-- <input id="editar" type="submit" data-id={{id}} value="Editar"> --}}
+                    </div>  
+                {{/each}}
+            {{/if}}
         </div>
     </div>
 </div>

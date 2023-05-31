@@ -56,7 +56,7 @@ export default class ProductManager {
         };
 
         //agregamos el Id Dinamico:
-        this.addID(product);
+        await this.addID(product);
         let rawdata = await fs.promises.readFile(this.path, 'utf-8');
         let data = JSON.parse(rawdata, null, "\n")
         
