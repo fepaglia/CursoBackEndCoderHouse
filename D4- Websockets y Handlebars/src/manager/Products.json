@@ -1,14 +1,5 @@
 [
 	{
-		"title": "Gaseosa",
-		"description": "botella plastica 2lts",
-		"price": 500,
-		"thumbail": "sin imagen",
-		"code": "bebidacola",
-		"stock": 24,
-		"id": 0
-	},
-	{
 		"title": "Vino",
 		"description": "tinto o blanco",
 		"price": 1000,

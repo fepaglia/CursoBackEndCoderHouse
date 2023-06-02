@@ -1,0 +1,20 @@
+{
+  message: 'Prueba fatal',
+  level: 'fatal',
+  timestamp: '2023-05-22T20:21:39.334Z'
+}
+{
+  message: 'Prueba error',
+  level: 'error',
+  timestamp: '2023-05-22T20:21:39.336Z'
+}
+{
+  message: 'Prueba fatal',
+  level: 'fatal',
+  timestamp: '2023-05-22T20:21:39.715Z'
+}
+{
+  message: 'Prueba error',
+  level: 'error',
+  timestamp: '2023-05-22T20:21:39.716Z'
+}

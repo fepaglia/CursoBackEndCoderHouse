@@ -32,6 +32,22 @@ router.get('/products', async (req,res)=>{
     }
 });
 
+router.get('/products/:pid', async (req,res) =>{
+    const prodId = req.params.pid;
+    
+    try {
+        const prodbyid = await dbproductmanager.getProductsById(prodId);
+
+        console.log(prodbyid);
+
+        res.render('productView', { product: prodbyid });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error });
+    }
+})
+
 router.get('/carts/:cid', async (req, res) =>{
     const id = req.params.cid;
     try {

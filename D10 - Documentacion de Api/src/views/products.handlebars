@@ -1,6 +1,10 @@
 <div>
     <header>
         <h1>Product manager</h1>
+        
+        <p>Bienvenido <b>{{user.role}}</b>: {{user.first_name}}!</p>
+        <button><a href="/carts/{{cartId}}" id="prueba">Carrito de compras</a></button>
+        <a href="/api/sessions/logout"><button>Salir de la sesion</button></a>
     </header>
 
     <div class="container">
@@ -9,13 +13,14 @@
             <div class="prodBox">
                 <div><span>ID: </span><p>{{_id}}</p></div>
                 <div><span>Nombre: </span><p>{{title}}</p></div>
-                <div><span>Precio: </span><p>{{price}}</p></div>
+                <div><span>Precio: </span><p>$ {{price}}</p></div>
                 <div><span>Descripcion: </span><p>{{description}}</p></div>
                 <div><span>Thumbnails: </span><p>{{thumbnails}}</p></div>
                 <div><span>Status: </span><p>{{status}}</p></div>
                 <div><span>Stock: </span><p>{{stock}}</p></div>
 
                 <button>Agregar al Carrito</button>
+
                 <button><a href="/products/{{_id}}">Ver detalles</a></button>
             </div>  
             {{/each}}

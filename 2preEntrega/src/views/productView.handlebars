@@ -1,23 +1,17 @@
 <div>
    <header>
-        <h1>Product manager</h1>
+        <h1>Detalle del producto{{_id}}</h1>
     </header>
 
     <div class="container">
-        {{#if this.product }}
-            <div class="prodBox">
-                <div><span>ID: </span><p>{{this.id}}</p></div>
-                <div><span>Nombre: </span><p>{{thistitle}}</p></div>
-                <div><span>Precio: </span><p>{{price}}</p></div>
-                <div><span>Descripcion: </span><p>{{description}}</p></div>
-                <div><span>Thumbnails: </span><p>{{thumbnails}}</p></div>
-                <div><span>Status: </span><p>{{status}}</p></div>
-                <div><span>Stock: </span><p>{{stock}}</p></div>
-            </div>  
-        {{else}}
-            <div class="prodBox">
-                <h2>El Producto que estas buscando no existe, o no se encuentra disponible en este momento. Intentelo mas tarde.</h2>
-            </div>
-        {{/if}}
+
+        <div class="prodBox">
+            <div><span>ID: </span><p>{{this._id}}</p></div>
+            <div><span>Nombre: </span><p>{{this.title}}</p></div>
+            <div><span>Precio: </span><p>{{product.price}}</p></div>
+            <div><span>Descripcion: </span><p>{{product.description}}</p></div>                <div><span>Thumbnails: </span><p>{{product.thumbnail}}</p></div>
+            <div><span>Status: </span><p>{{product.status}}</p></div>
+            <div><span>Stock: </span><p>{{product.stock}}</p>
+        </div>  
     </div>
 </div>
