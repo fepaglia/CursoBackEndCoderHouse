@@ -14,7 +14,7 @@ import logger from '../config/winston.config.js';
 const getCarts = async (req,res) =>{
     try {
         const carts = await getCartsServices();
-        res.send({ result: 'success', payload: carts});
+        res.status(200).send({ result: 'success', payload: carts});
         
     } catch (error) {
         logger.error(error);
@@ -26,7 +26,7 @@ const getCarts = async (req,res) =>{
 const addCart = async (req,res) =>{
     try {
         const newCart = await addCartServices();
-        res.send({result: 'success', payload: newCart});
+        res.status(200).send({result: 'success', payload: newCart});
 
     } catch (error) {
         logger.error(error);
@@ -38,7 +38,10 @@ const getCartById = async (req,res) =>{
     const id = req.params.cid;
     try {
         const cart = await getCartByIdServices(id);
-        res.send({result: 'success', payload: cart});
+
+        if(!cart) return res.status(404).send({status:"error",error:"Cart not found"})
+
+        res.status(200).send({result: 'success', payload: cart});
         
     } catch (error) {
         logger.error(error);
@@ -51,14 +54,16 @@ const updateCart =async (req,res) =>{
     const cartId = req.params.cid;
     try {
         const cart = await getCartByIdServices(cartId);
+        if(!cart) return res.status(404).send({status:"error",error:"Cart not found"})
         //Importarlo desde el DAO de PRODUCTOS
         const prod = await getProductsByIdServices(prodId);
+        if(!prod) return res.status(404).send({status:"error",error:"Product not found"})
 
         cart.products.push({pId: prod._id});
         console.log(cart);
 
         const update = await updateCartServices(cartId, cart)
-        res.send({payload: update})
+        res.status(200).send({payload: update})
     } catch (error) {
         logger.error(error);
         res.status(500).send({ error });
@@ -69,7 +74,8 @@ const deleteCart = async (req, res)=>{
     const cid = req.params.cid;
     try {
         const deleteCart = await deleteCartServices(cid);
-        res.send({result: 'success', payload: deleteCart})
+        if(!deleteCart) return res.status(404).send({status:"error",error:"Cart not found"})
+        res.status(200).send({result: 'success', payload: deleteCart})
         
     } catch (error) {
         logger.error(error);
@@ -83,10 +89,13 @@ const deleteOneProdofCart = async (req,res) =>{
     const cartId = req.params.cid;
     try {
         const cart = await getCartByIdServices(cartId);
+        if(!cart) return res.status(404).send({status:"error",error:"Cart not found"})
 
         cart.products = cart.products.filter(product => product._id !== prodId);
 
-        await cart.save()
+        const updateCart = await cart.save()
+        
+        res.status(200).send({result: 'success', payload: updateCart})
         
     } catch (error) {
         logger.error(error);
@@ -98,7 +107,9 @@ const emptyCart = async (req,res)=>{
     const id = req.params.cid;
     try {
         const emptyCart = await emptyCartServices(id);
-        res.send({result: 'success', payload: emptyCart});
+        if(!emptyCart) return res.status(404).send({status:"error",error:"Cart not found"})
+
+        res.status(200).send({result: 'success', payload: emptyCart});
     } catch (error) {
         logger.error(error);
         res.status(500).send({ error });

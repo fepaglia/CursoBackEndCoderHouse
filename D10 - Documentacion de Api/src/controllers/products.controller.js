@@ -44,17 +44,17 @@ const addProduct =  async (req,res) =>{
     try {
 
         const result = await addProductServices(
-        {
-            title,
-            description,
-            price,
-            thumbnail,
-            status,
-            code,
-            stock
-        }
-    );
-        res.send({ result: 'success', payload: result});
+            {
+                title,
+                description,
+                price,
+                thumbnail,
+                status,
+                code,
+                stock
+            }
+        );
+        res.status(200).send({ result: 'success', payload: result});
         
     } catch (error) {
         logger.error(error);
@@ -81,6 +81,8 @@ const updateProduct =  async (req,res)=>{
     let id = req.params.pid;
     const updateObj = req.body;
     try {
+        if (!updateObj) return res.status(400).send({ status: "error", error: "Incomplete values" })
+
         const result = await updateProductServices(id,updateObj);
 
         if(!result) return res.status(404).send({status:"error",error:"Product not found"});

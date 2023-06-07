@@ -1,0 +1,258 @@
+paths:
+  /api/carts:
+    get:
+      summary: Retorna todos los Carritos de compra, junto con su respectivos productos, creados hasta el momento
+      tags:
+        - Carrito
+      responses:
+        "200":
+          description: Los Carritos de compra se retornaron satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Carts'
+        "500":
+          description: Error interno del Servidor.
+    post:
+      summary: Crea un nuevo Carrito de compras
+      tags: 
+        - Carrito
+      responses:
+        "200":
+          description: Un nuevo Carrito de compras se ha creado satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/NewCart'
+        "500":
+          description: Error interno del Servidor.
+  /api/carts/{cid}:
+    get:
+      summary: Devuelve un solo Carrito, filtrado por su ID
+      tags: 
+        - Carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Es el Id del Carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El carrito seleccionado se retorna satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                $ref: '#components/schemas/CartById'
+        "404":
+          description: No se encontro el carrito
+        "500":
+          description: Error interno del Servidor.
+    put:
+      summary: Vacia un Carrito de , manteniendo el Id
+      tags:
+        - Carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Es el Id del Carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El carrito seleccionado se vacia satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+              $ref: '#components/schemas/NewCart'
+        "404":
+          description: No se encontro el carrito
+        "500":
+          description: Error interno del Servidor.
+    delete:
+      summary: Elimina el carrito seleccionado, filtrado por su ID
+      tags: 
+        - Carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Es el Id del Carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El carrito seleccionado se elimino correctamente.
+          content: 
+            application/json:
+              schema:
+                $ref: '#components/schemas/CartById'
+        "404":
+          description: No se encontro el carrito
+        "500":
+          description: Error interno del Servidor.
+  /api/carts/{cid}/products/{pid}:
+    put:
+      summary: Agrega un producto al Carrito, filtrado por su ID
+      tags: 
+        - Carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Es el Id del Carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto que queremos agregar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto seleccionado se agrego correctamente al carrito..
+          content: 
+            application/json:
+              schema:
+                $ref: '#components/schemas/CartById'
+        "404":
+          description: No se ha encontrado el id del carrito o del producto
+        "500":
+          description: Error interno del Servidor.
+    delete:
+      summary: Borra un producto del Carrito, filtrado por su ID
+      tags: 
+        - Carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Es el Id del Carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto que queremos borrar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto seleccionado se elimino correctamente del carrito
+          content: 
+            application/json:
+              schema:
+                $ref: '#components/schemas/CartById'
+        "404":
+          description: No se ha encontrado el id del carrito o del producto
+        "500":
+          description: Error interno del Servidor.
+
+
+            
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        products:
+          type: Array
+          description: Array que contiene los productos agregados hasta el momento. Por default, se inicializa vacio
+          items:
+            type: object
+            properties:
+              product:
+                type: ObjectId
+                $ref: "#components/schemas/Product"
+              quantity:
+                type: Number
+                description: Cantidad de unidades del producto
+      example:
+        [{
+        _id: ObjectID("6473e40e74e7a665ba1cc045"),
+        products:
+          [
+            {
+              "_id": "12312312312",
+              "quantity": "1",
+            },
+            {
+              "_id": "asdasdasd",
+              "quantity": "5",
+            }
+          ]},{
+         _id: ObjectID("asdqwsdqw12312"),
+        products:
+          [
+            {
+              "_id": "567567567",
+              "quantity": "3",
+            },
+            {
+              "_id": "jkljkljkl",
+              "quantity": "1",
+            }
+          ]}
+        ]
+    CartById:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        products:
+          type: Array
+          description: Array que contiene los productos agregados hasta el momento. Por default, se inicializa vacio
+          items:
+            type: object
+            properties:
+              product:
+                type: ObjectId
+                $ref: "#components/schemas/Product"
+              quantity:
+                type: Number
+                description: Cantidad de unidades del producto
+      example:
+        _id: ObjectID("6473e40e74e7a665ba1cc045")
+        products:
+          [
+            {
+              "_id": "12312312312",
+              "quantity": "1",
+            },
+            {
+              "_id": "asdasdasd",
+              "quantity": "5",
+            }
+          ]
+    NewCart:      
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        products:
+          type: Array
+          description: Array que contiene los productos agregados hasta el momento. Por default, se inicializa vacio
+          items:
+            type: object
+            properties:
+              product:
+                type: ObjectId
+                $ref: "#components/schemas/Product"
+              quantity:
+                type: Number
+                description: Cantidad de unidades del producto
+      example:
+        _id: ObjectID("6473e40e74e7a665ba1cc045")  
+        products: []
