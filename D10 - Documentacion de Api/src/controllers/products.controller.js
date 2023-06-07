@@ -15,7 +15,10 @@ import logger from '../config/winston.config.js';
 const getProducts = async (req, res)=>{
     try {
         const products = await getProductsServices();
-        res.send({ result: 'success', payload: products});
+
+        if(!products) return res.status(404).send({status:"error",error:"Products not found"})
+        
+        res.status(200).send({ result: 'success', payload: products});
        
     } catch (error) {
         logger.error(error);
@@ -64,7 +67,10 @@ const getProductsById =  async (req,res) =>{
     let id = req.params.pid;
     try {
         const result = await getProductsByIdServices(id);
-        res.send({ result: 'success', payload: result});
+
+        if(!result) return res.status(404).send({status:"error",error:"Product not found"});
+
+        res.status(200).send({ result: 'success', payload: result});
     } catch (error) {
         logger.error(error);
         res.status(500).send({ error });
@@ -76,7 +82,10 @@ const updateProduct =  async (req,res)=>{
     const updateObj = req.body;
     try {
         const result = await updateProductServices(id,updateObj);
-        res.send({status:"success", payload: result})
+
+        if(!result) return res.status(404).send({status:"error",error:"Product not found"});
+
+        res.status(200).send({status:"success", payload: result})
     } catch (error) {
         logger.error(error);
         res.status(500).send({ error });
@@ -88,6 +97,9 @@ const deleteProduct = async (req,res) =>{
     let id = req.params.pid;    
     try {
         const product = await deleteProductServices(id);
+
+        if(!product) return res.status(404).send({status:"error",error:"Product not found"});
+        
         res.send({status: "success", payload: product})
     } catch (error) {
         logger.error(error);
