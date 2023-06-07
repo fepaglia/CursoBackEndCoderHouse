@@ -24,6 +24,7 @@ import './config/dbMongo.config.js';
 import config from './config/config.js';
 import logger, { addLogger } from './config/winston.config.js';
 
+import swagger from './config/swagger.config.js';
 
 const app = express();
 
@@ -46,10 +47,16 @@ app.use(session({
     saveUninitialized: true
 }))
 
+swagger(app)
+
+
 //Configuracion handlebars:
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars')
+
+
+
 
 //Configuracion passport:
 initializePassport();
