@@ -1,0 +1,191 @@
+paths:
+  /api/products:
+    get:
+      summary: Retorna todos los productos agregados hasta el momento
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos se retornaron satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "404":
+          description: No se encontraron los productos
+        "500":
+          description: Error interno del Servidor.
+    post:
+      summary: Agrega un nuevo producto a la lista
+      tags:
+        - Products
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: El producto se agrego satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Error interno del Servidor.
+
+  /api/products/{pid}:
+    get:
+      summary: Devuelve un inico producto, filtrado por su ID
+      tags: 
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Es el Id del Producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto seleccionado se retorna satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+        "404":
+          description: No se encontro el producto
+        "500":
+          description: Error interno del Servidor.
+    put:
+      summary: Actualiza informacion de un unico producto seleccionado en base a su ID
+      tags: 
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Es el Id del Producto a modificar
+          schema:
+            $type: String
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: El producto seleccionado se Actualizo satisfactoriamente.
+          content: 
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+        "400":
+          description: Campos incompletos o cuerpo inexistente
+        "404":
+          description: No se encontro el producto
+        "500":
+          description: Error interno del Servidor.
+    delete:
+      summary: Elimina un producto de la base de datos en base a su ID
+      tags: 
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Es el Id del Producto a eliminar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto seleccionado se Borro satisfactoriamente.
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "404":
+          description: No se encontro el producto
+        "500":
+          description: Error interno del Servidor.
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        title:
+          type: String
+          description: Titulo del Producto
+        description:
+          type: String
+          description: Informacion acerca del producto
+        price:
+          type: Number
+          description: Precio del Producto
+        thumbnail: 
+          type: Array
+          description: Imagenes del producto, pueden o no tenerlas
+        code:
+          type: String
+          description: Codigo de identificacion del producto. Debe ser unico.
+        status:
+          type: Boolean
+          description: Estado del producto, por defecto en true.
+        stock:
+          type: Number
+          description: Cantidad de unidades del producto. Si, el stock es 0, el status, deberia pasar a false (No disponible).
+      example:
+        _id: ObjectId("asdqiw12334")
+        title: Producto de Ejemplo
+        description: Informacion sobre el producto, peso, medidas, usos
+        price: 250
+        thumnail: [Imagenes de prueba]
+        code: prodPrueba00
+        status: true
+        stock: 10
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Titulo del Producto
+        description:
+          type: String
+          description: Informacion acerca del producto
+        price:
+          type: Number
+          description: Precio del Producto
+        thumbnail: 
+          type: Array
+          description: Imagenes del producto, pueden o no tenerlas
+        code:
+          type: String
+          description: Codigo de identificacion del producto. Debe ser unico.
+        status:
+          type: Boolean
+          description: Estado del producto, por defecto en true.
+        stock:
+          type: Number
+          description: Cantidad de unidades del producto. Si, el stock es 0, el status, deberia pasar a false (No disponible).
+      example:
+        title: Producto de Ejemplo
+        description: Informacion sobre el producto, peso, medidas, usos
+        price: 250
+        thumnail: [Imagenes de prueba]
+        code: prodPrueba00
+        status: true
+        stock: 10

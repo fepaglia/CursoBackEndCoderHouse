@@ -1,18 +1,25 @@
 import { getProducts as getProductsServices} from '../services/products.services.js';
-import { getCartById as getCartByIdServices } from '../services/carts.services.js'
+import { getCartById as getCartByIdServices } from '../services/carts.services.js';
+
+import UserDto from '../dao/DTOs/users.dto.js';
 
 const productsView = async (req,res)=>{
+
+    const user = req.user;
+    const userDto = new UserDto(user);
+    
     try {
         const { limit = 10 } = req.query;
         const { page = 1 } = req.query;
         const sort = req.query.sort;
-
+        
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
         const products = docs;
-
+        
+        
         res.render('products', {
             products,
-            user: req.session.user.first_name,
+            user: userDto,
             hasPrevPage, 
             hasNextPage,
             nextPage, 
@@ -40,12 +47,12 @@ const cartView = async (req, res) =>{
 }
 
 const publicAccess = (req, res, next) =>{
-    if(req.session.user) return res.redirect('/products');
+    if (req.cookies['cookieToken']) return res.redirect('/products');
     next();
 };
 
 const privateAccess = (req, res, next) =>{
-    if(!req.session.user) return res.redirect('/login');
+    if (!req.cookies['cookieToken']) return res.redirect('/login');
     next();
 }
 

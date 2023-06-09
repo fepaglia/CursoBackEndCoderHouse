@@ -13,11 +13,14 @@ form.addEventListener('submit', e=>{
         method: 'POST',
         body: JSON.stringify(obj),
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
     }).then(result => {
-        if(result.status === 200){
-            window.location.replace('/products')
-        }
+        if(result.status === 200){        
+            location.href = "/products"
+    }  else {
+        location.href = "/login"
+    }
     })
 })

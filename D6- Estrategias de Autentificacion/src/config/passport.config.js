@@ -51,6 +51,8 @@ const initializePassport = () =>{
             };
 
             if(!isValidPassword(user, password)) return done(null, false);
+
+            
             return done(null, user);
 
         } catch (error) {
