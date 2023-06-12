@@ -3,6 +3,7 @@
         <h1>Product manager</h1>
         <p>Bienvenido {{user.first_name}}!</p>
         <a href="/api/sessions/logout"><button>Salir de la sesion</button></a>
+        <a href="/profile"><button>Mi Perfil</button></a>
     </header>
 
     <div class="container">
@@ -18,6 +19,8 @@
                 <div><span>Stock: </span><p>{{stock}}</p></div>
 
                 <button>Agregar al Carrito</button>
+               
+                <button><a href="/products/{{_id}}">Ver detalle</a></button>
             </div>  
             {{/each}}
         {{/if}}

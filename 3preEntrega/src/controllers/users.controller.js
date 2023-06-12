@@ -82,7 +82,9 @@ const failRegister = async  (req,res)=>{
 }
 
 const current = async (req,res) =>{
-     res.send({status: 'success', payload: req.user});
+    const user = req.user;
+    console.log(user);
+     res.send({status: 'success', payload: user});
 }
 
 export {
