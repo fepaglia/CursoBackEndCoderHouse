@@ -6,17 +6,19 @@ import {
     updateProduct,
     deleteProduct
 } from '../../controllers/products.controller.js';
+import { authenticateToken } from '../../config/jwt.config.js';
+import { authorizeRol } from '../../config/role.config.js';
 
 const router = Router();
 
-router.get('/:pid', getProductsById);
+router.get('/:pid',authenticateToken, authorizeRol('admin') , getProductsById);
 
-router.delete('/:pid', deleteProduct);
+router.delete('/:pid', authenticateToken, authorizeRol('admin'), deleteProduct);
 
-router.put('/:pid', updateProduct)
+router.put('/:pid', authenticateToken, authorizeRol('admin'), updateProduct)
 
-router.post('/', addProduct);
+router.post('/', authenticateToken, authorizeRol('admin'), addProduct);
 
-router.get('/', getProducts);
+router.get('/', authenticateToken, authorizeRol('admin'), getProducts);
 
 export default router;

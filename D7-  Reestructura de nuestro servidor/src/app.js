@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import handlebars from 'express-handlebars';
+import cookieParser from 'cookie-parser'
 
 import MongoStore from 'connect-mongo';
 
@@ -13,19 +14,30 @@ import __dirname from './utils.js';
 
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+import logger, { addLogger } from './config/winston.config.js';
 
-import './dao/dbConfig.js';
+import './config/dbMongo.Config.js';
+import config from './config/config.js';
+
+const PORT = config.port || 8080;
+const ENVIROMENT = config.enviroment;
+const MONGO_URI = config.mongoUrl;
 
 const app = express();
+
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(`${__dirname}/public`));
 
+//Middleware Logger
+app.use(addLogger);
+
 //Configuracion sesion:
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://admin1:1234@cluster0.qpiwfcg.mongodb.net/?retryWrites=true&w=majority',
+        mongoUrl: MONGO_URI,
         mongoOptions: { useNewUrlParser: true },
         ttl: 3600
        }),
@@ -33,6 +45,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
 
 //Configuracion handlebars:
 app.engine('handlebars', handlebars.engine());
@@ -50,4 +63,4 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
 
-app.listen(8080, ()=> console.log("Server On. D7-  Reestructura de nuestro servidor"));
+app.listen(PORT, ()=> logger.info(`Server On. D7 Resstructura del SV. Entorno de: ${ENVIROMENT}`));

@@ -3,6 +3,7 @@ import local from 'passport-local';
 import jwt from 'passport-jwt';
 import GitHubStrategy from 'passport-github2';
 import userModel from '../dao/MongoDB/models/users.model.js';
+import cartModel from '../dao/MongoDB/models/carts.model.js';
 import { createHash, isValidPassword } from '../utils.js';
 import UserDto from '../dao/DTOs/users.dto.js'
 import config from './config.js';
@@ -27,12 +28,14 @@ const initializePassport = () =>{
                 return done(null, false)
             }
 
+            const newCart = await cartModel.create();
+
             const newUser = {
                 first_name, 
                 last_name,
                 email,
                 age,
-                carts:[],
+                carts:[newCart],
                 password: createHash(password),
                 role: email.includes('admin') && password.includes('admin') ? 'admin' : 'user'
             };

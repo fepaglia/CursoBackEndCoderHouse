@@ -4,7 +4,7 @@ import  {
 } from '../services/users.services.js';
 import { createHash } from '../utils.js';
 
-const updateUser = async (req, res) => {
+const changePass = async (req, res) => {
     const { email, password } = req.body;
   
     if(!email || !password) return res.status(400)
@@ -36,14 +36,15 @@ const createUser = async (req, res) => {
 };
 
 const logOut =  async (req,res) =>{
-    req.session.destroy(err =>{
-        if(err) {
-            res.status(500).send({status: 'error', error: 'couldnt logout'})
+    req.session.destroy((err) => {
+        if (err) {
+          res.status(500).send({ status: 'error', error: 'couldnt logout' });
         } else {
-            console.log("Session destroyed successfully!");
-            res.redirect('/login');
+          console.log('Session destroyed successfully!');
+          res.clearCookie('cookieToken');
+          res.redirect('/login');
         }
-    })
+      });
 };
 
 const login = async (req, res) => {
@@ -52,6 +53,12 @@ const login = async (req, res) => {
         .send({status: 'error', message: 'Invalid Credentials'});
 
     const accessToken = await generateToken(req.user);
+    
+    res.cookie('cookieToken', accessToken, {
+        maxAge: 2 * 60 * 60 * 1000, // 2hs
+        httpOnly: true
+    })
+
     console.log(accessToken);
     res.send({ status: 'success',acces_token: accessToken, message: 'login success' });
 };
@@ -78,7 +85,7 @@ const current = async (req,res) =>{
 }
 
 export {
-    updateUser,
+    changePass,
     createUser,
     logOut,
     login,

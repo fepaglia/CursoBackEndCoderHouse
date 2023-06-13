@@ -5,8 +5,8 @@ const getCarts = async () =>{
     return carts.map(c => c.toObject());
 };
 
-const addCart = async (newCart) =>{
-    const cartAdded = await CARTSDAO.addCart(newCart);
+const createCart = async (newCart) =>{
+    const cartAdded = await CARTSDAO.createCart(newCart);
     return cartAdded;
 };
 
@@ -32,7 +32,7 @@ const emptyCart = async (cid) => {
 
 export {
     getCarts,
-    addCart,
+    createCart,
     getCartById,
     updateCart,
     deleteCart,

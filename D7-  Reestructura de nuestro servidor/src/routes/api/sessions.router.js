@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { 
-    updateUser,
+    changePass,
     createUser,
     logOut,
     login,
@@ -11,21 +11,34 @@ import {
     failRegister,
     current
 } from '../../controllers/users.controller.js';
-
+import passport from 'passport';
 
 const router = Router();
 
-router.post('/login', login);
+router.post('/login',passport.authenticate('login', {
+    failureRedirect: 'fail-login'
+}), login);
+
 router.get('/fail-login', failLogin );
 
-router.post('/register', createUser);
-router.get('/github', github);
-router.get('/githubcallback',  githubCallback);
+router.post('/register', passport.authenticate('register', {
+    failureRedirect: 'fail-register'
+}), createUser);
 router.get('/fail-register', failRegister);
 
-router.get('/current', current)
+router.get('/github', passport.authenticate('github', {
+    scope: ['user:email']
+}), github);
 
-router.post('/reset', updateUser);
+router.get('/githubcallback', passport.authenticate('github', {
+    failureRedirect: '/login'
+}),  githubCallback);
+
+router.get('/current', passport.authenticate("current", {
+    session: false
+}), current)
+
+router.post('/reset', changePass);
 
 router.get('/logout', logOut);
 

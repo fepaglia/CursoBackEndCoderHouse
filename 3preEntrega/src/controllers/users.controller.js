@@ -1,11 +1,11 @@
 import  {
     findUser as findUserServices ,
-    updateUser as updateUserServices
+    updateUserPass as updateUserPassServices
 } from '../services/users.services.js';
 import { createHash } from '../utils.js';
 import { generateToken } from '../config/jwt.config.js';
 
-const updateUser = async (req, res) => {
+const changePass = async (req, res) => {
     const { email, password } = req.body;
   
     if(!email || !password) return res.status(400)
@@ -18,7 +18,7 @@ const updateUser = async (req, res) => {
   
         user.password = createHash(password);
   
-        await updateUserServices(email , user);
+        await updateUserPassServices(email , user);
   
         res.send({ status: 'success', message: 'Reset Success' });
   
@@ -26,6 +26,7 @@ const updateUser = async (req, res) => {
         res.status(500).send({ status: 'error', error });
     }
 };
+
 
 const createUser = async (req, res) => {
     try {  
@@ -88,7 +89,7 @@ const current = async (req,res) =>{
 }
 
 export {
-    updateUser,
+    changePass,
     createUser,
     logOut,
     login,

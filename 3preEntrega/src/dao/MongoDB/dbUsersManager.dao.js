@@ -15,7 +15,11 @@ export default class dbUsersManager {
         return await userModel.findOne({ _id: uid })
     };
 
-    updateUser = async (email, user) =>{
+    updateUserPass = async (email, user) =>{
         return await userModel.updateOne({ email }, user)
+    };
+
+    createCartUser = async (userId, newCart) =>{
+        return await userModel.findByIdAndUpdate(userId, { $push: { carts: { cart: newCart._id } } });
     };
 };

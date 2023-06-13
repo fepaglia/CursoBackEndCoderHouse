@@ -8,6 +8,9 @@ import {
     deleteOneProdofCart,
     emptyCart,
 } from '../../controllers/carts.controller.js';
+import { authenticateToken } from '../../config/jwt.config.js';
+import { authorizeRol } from '../../config/role.config.js';
+
 
 const router = Router();
 
@@ -15,7 +18,7 @@ const router = Router();
 router.delete('/:cid/products/:pid', deleteOneProdofCart);
 
 //Agregar un producto de l carrito:
-router.put('/:cid/products/:pid', updateCart)
+router.put('/:cid/products/:pid', authenticateToken, authorizeRol('user'),updateCart)
 
 //Vaciar un carrito:
 router.put('/:cid', emptyCart)
@@ -30,6 +33,6 @@ router.delete('/:cid', deleteCart)
 router.get('/', getCarts)
 
 //Crear Nuevo Carrito:
-router.post('/', addCart)
+router.post('/', authenticateToken, authorizeRol('user'), addCart)
 
 export default router;

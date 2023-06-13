@@ -4,10 +4,10 @@
         <a href="/api/sessions/logout"><button>Salir de la sesion</button></a>
     </nav>
     <div>
-        <p>Codigo del Carrito Actual: {{cart}}</p>
+        <p>Codigo del Carrito Actual: {{cartsCode}}</p>
        
-        {{#if carts.products}}
-            {{#each carts.products}}
+        {{#if cart.products}}
+            {{#each cart.products}}
                 <div> 
                     <div><span>ID: </span><p>{{_id}}</p></div>
                     <div><span>Nombre: </span><p>{{title}}</p></div>

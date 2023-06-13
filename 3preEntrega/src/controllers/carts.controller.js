@@ -1,12 +1,13 @@
 import {
     getCarts as getCartsServices,
-    addCart as addCartServices, 
+    createCart as createCartServices, 
     getCartById as getCartByIdServices, 
     updateCart as updateCartServices,
     deleteCart as deleteCartServices, 
     emptyCart as emptyCartServices
 } from '../services/carts.services.js';
 import { getProductsById as getProductsByIdServices} from '../services/products.services.js';
+import { createCartUser as createCartUserServices } from '../services/users.services.js';
 
 const getCarts = async (req,res) =>{
     try {
@@ -20,10 +21,17 @@ const getCarts = async (req,res) =>{
     
 };
 
-const addCart = async (req,res) =>{
+const createCart = async (req,res) =>{
     try {
-        const newCart = await addCartServices();
+        const newCart = await createCartServices();
         res.send({result: 'success', payload: newCart});
+
+        const userId = req.user._id;
+        console.log(userId)
+
+    
+        await createCartUserServices(userId, newCart);
+    
 
     } catch (error) {
         console.log(error);
@@ -104,7 +112,7 @@ const emptyCart = async (req,res)=>{
 
 export {
     getCarts,
-    addCart,
+    createCart,
     getCartById,
     updateCart,
     deleteCart,

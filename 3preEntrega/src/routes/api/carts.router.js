@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { 
     getCarts,
-    addCart,
+    createCart,
     getCartById,
     updateCart,
     deleteCart,
@@ -33,6 +33,6 @@ router.delete('/:cid', deleteCart)
 router.get('/', getCarts)
 
 //Crear Nuevo Carrito:
-router.post('/', authenticateToken, authorizeRol('user'), addCart)
+router.post('/', authenticateToken, authorizeRol('user'), createCart)
 
 export default router;

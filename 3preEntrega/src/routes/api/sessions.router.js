@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { 
-    updateUser,
+    changePass,
     createUser,
     logOut,
     login,
@@ -38,7 +38,7 @@ router.get('/current', passport.authenticate("current", {
     session: false
 }), current)
 
-router.post('/reset', updateUser);
+router.post('/reset', changePass);
 
 router.get('/logout', logOut);
 

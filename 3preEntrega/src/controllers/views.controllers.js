@@ -1,5 +1,5 @@
 import { getProducts as getProductsServices, getProductsById as getProductsByIdServices } from '../services/products.services.js';
-import { getCartById as getCartByIdServices } from '../services/carts.services.js';
+import { getCartById as getCartByIdServices, createCart as createCartServices } from '../services/carts.services.js';
 
 import UserDto from '../dao/DTOs/users.dto.js';
 
@@ -15,11 +15,21 @@ const productsView = async (req,res)=>{
         
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
         const products = docs;
-        
+
+        let cart = user.carts;
+
+        if (!user.carts || !Array.isArray(user.carts) || user.carts.length === 0) {
+            cartsCode = await createCartServices();
+            console.log("prueba:",cartsCode);
+          } else {
+            cartsCode = user.carts[user.carts.length - 1]._id.toString();
+            console.log('Carrito:', cartsCode);
+        }
         
         res.render('products', {
             products,
             user: userDto,
+            cart,
             hasPrevPage, 
             hasNextPage,
             nextPage, 
@@ -60,23 +70,26 @@ const cartView = async (req, res) =>{
     }
 }
 
-const profileView = (req, res) =>{
+const profileView = async (req, res) =>{
     try {
         const user = req.user;
-        let cart = user.carts;
-
+        let cartsCode = user.carts;
         
-        if (cart.length === 0) {
-          cart = null; // Si el array está vacío, asignamos null o puedes manejarlo de otra manera según tus necesidades
-        } else {
-          cart = cart[cart.length - 1]._id.toString(); // Accedemos al último elemento del array
-        console.log('Carrito:', cart)
+        if (!user.carts || !Array.isArray(user.carts) || user.carts.length === 0) {
+            cartsCode = await createCartServices();
+            console.log(cartsCode);
+          } else {
+            cartsCode = user.carts[user.carts.length - 1]._id.toString();
+            console.log('Carrito:', cartsCode);
         }
+
+        const cart = await getCartByIdServices(cartsCode)
+        console.log(cart);
         
         const userDto = new UserDto(user);
         console.log(userDto);
         
-        res.render('profile', { user: userDto, cart });
+        res.render('profile', { user: userDto, cartsCode, cart });
         
     } catch (error) {
         console.log(error);
