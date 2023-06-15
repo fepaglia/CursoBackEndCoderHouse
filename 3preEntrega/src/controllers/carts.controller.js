@@ -24,14 +24,14 @@ const getCarts = async (req,res) =>{
 const createCart = async (req,res) =>{
     try {
         const newCart = await createCartServices();
-        res.send({result: 'success', payload: newCart});
-
+        
         const userId = req.user._id;
         console.log(userId)
-
-    
+        
+        
         await createCartUserServices(userId, newCart);
-    
+        
+        res.send({result: 'success', payload: newCart});
 
     } catch (error) {
         console.log(error);

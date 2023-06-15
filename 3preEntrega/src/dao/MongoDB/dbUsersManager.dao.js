@@ -20,6 +20,6 @@ export default class dbUsersManager {
     };
 
     createCartUser = async (userId, newCart) =>{
-        return await userModel.findByIdAndUpdate(userId, { $push: { carts: { cart: newCart._id } } });
+        return await userModel.findByIdAndUpdate(userId, { $push: { carts: { _id: newCart._id } } });
     };
 };

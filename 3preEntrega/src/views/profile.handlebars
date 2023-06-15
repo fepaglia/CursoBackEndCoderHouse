@@ -6,20 +6,20 @@
     <div>
         <p>Codigo del Carrito Actual: {{cartsCode}}</p>
        
-        {{#if cart.products}}
-            {{#each cart.products}}
+        {{#if listOfProducts}}
+            {{#each listOfProducts}}
                 <div> 
-                    <div><span>ID: </span><p>{{_id}}</p></div>
-                    <div><span>Nombre: </span><p>{{title}}</p></div>
-                    <div><span>Precio: </span><p>{{price}}</p></div>
+                    <div><span>ID: </span><p>{{{pId._id}}}</p></div>
+                    <div><span>Nombre: </span><p>{{pId.title}}</p></div>
+                    <div><span>Precio: </span><p>{{{pId.price}}}</p></div>
+                    <div><span>Cantidad: </span><p>{{quantity}}</p></div>
                 </div>
             {{/each}}
         {{else}}
             <div>
-            <p>EL carrito se encuentra vacio</p>
+                <p>EL carrito se encuentra vacio</p>
                 <a href="/products">Ver Productos</a>
             </div>
-
         {{/if}}
     </div>
 </div>

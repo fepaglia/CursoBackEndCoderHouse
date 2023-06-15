@@ -2,8 +2,9 @@ import passport from 'passport';
 import local from 'passport-local';
 import jwt from 'passport-jwt';
 import GitHubStrategy from 'passport-github2';
+import { createCartUser } from '../services/users.services.js';
 import userModel from '../dao/MongoDB/models/users.model.js';
-import cartModel from '../dao/MongoDB/models/carts.model.js';
+import { createCart } from '../services/carts.services.js';
 import { createHash, isValidPassword } from '../utils.js';
 import UserDto from '../dao/DTOs/users.dto.js'
 import config from './config.js';
@@ -28,14 +29,12 @@ const initializePassport = () =>{
                 return done(null, false)
             }
 
-            const newCart = await cartModel.create();
-
             const newUser = {
                 first_name, 
                 last_name,
                 email,
                 age,
-                carts:[newCart],
+                carts:[],
                 password: createHash(password),
                 role: email.includes('admin') && password.includes('admin') ? 'admin' : 'user'
             };
@@ -64,6 +63,13 @@ const initializePassport = () =>{
                 
                 return done(null, false)
             };
+
+            if (user.carts.length === 0) {
+                let newCart = await createCart();
+                let userId = user._id.toString();
+
+                await createCartUser(userId, newCart);
+            }
 
             logger.info(`El usuario con el mail: ${user.email} inicio session`);
             

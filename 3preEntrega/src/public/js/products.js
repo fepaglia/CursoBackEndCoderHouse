@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
             const productId = event.target.dataset.productId;
             const cartId = event.target.dataset.cart;
+            console.log(productId)
             console.log(cartId)
   
             // Construir la URL para la solicitud a la API

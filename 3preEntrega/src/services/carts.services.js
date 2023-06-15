@@ -15,8 +15,8 @@ const getCartById = async(cid) =>{
     return searchCart;
 };
 
-const updateCart = async (id, updateCart) =>{
-    const update =  await CARTSDAO.updateCart(id, updateCart)
+const updateCart = async (cid, updateCart) =>{
+    const update =  await CARTSDAO.updateCart(cid, updateCart)
     return update;
 };
 

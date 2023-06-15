@@ -18,7 +18,7 @@ export const authenticateToken = (req, res, next) => {
 
     if (token == null) {
 
-        return res.status(401).send('unauthorized');
+        return res.status(401).send('unauthorized, Wrong Token');
     }
     jwt.verify(token, PRIVATE_KEY, (err, user) => {
         if (err) {

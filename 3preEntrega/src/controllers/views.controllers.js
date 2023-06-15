@@ -1,6 +1,8 @@
 import { getProducts as getProductsServices, getProductsById as getProductsByIdServices } from '../services/products.services.js';
 import { getCartById as getCartByIdServices, createCart as createCartServices } from '../services/carts.services.js';
 
+import logger from '../config/winston.config.js';
+
 import UserDto from '../dao/DTOs/users.dto.js';
 
 const productsView = async (req,res)=>{
@@ -12,36 +14,28 @@ const productsView = async (req,res)=>{
         const { limit = 10 } = req.query;
         const { page = 1 } = req.query;
         const sort = req.query.sort;
-        
+      
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
         const products = docs;
-
-        let cart = user.carts;
-
-        if (!user.carts || !Array.isArray(user.carts) || user.carts.length === 0) {
-            cartsCode = await createCartServices();
-            console.log("prueba:",cartsCode);
-          } else {
-            cartsCode = user.carts[user.carts.length - 1]._id.toString();
-            console.log('Carrito:', cartsCode);
-        }
         
+        let Id = user.carts[user.carts.length - 1]._id.toString();
+        logger.info(Id);
+      
         res.render('products', {
-            products,
-            user: userDto,
-            cart,
-            hasPrevPage, 
-            hasNextPage,
-            nextPage, 
-            prevPage, 
-            style: 'products.css'
+          products,
+          user: userDto,
+          cart: Id,
+          hasPrevPage,
+          hasNextPage,
+          nextPage,
+          prevPage,
+          style: 'products.css'
         });
-        
-    } catch (error) {
+      } catch (error) {
         console.log(error);
         res.status(500).send({ error });
-    }
-};
+    };
+}
 
 const productView = async (req, res) =>{
     const prodId = req.params.pid;
@@ -73,23 +67,15 @@ const cartView = async (req, res) =>{
 const profileView = async (req, res) =>{
     try {
         const user = req.user;
-        let cartsCode = user.carts;
-        
-        if (!user.carts || !Array.isArray(user.carts) || user.carts.length === 0) {
-            cartsCode = await createCartServices();
-            console.log(cartsCode);
-          } else {
-            cartsCode = user.carts[user.carts.length - 1]._id.toString();
-            console.log('Carrito:', cartsCode);
-        }
-
-        const cart = await getCartByIdServices(cartsCode)
-        console.log(cart);
-        
         const userDto = new UserDto(user);
-        console.log(userDto);
         
-        res.render('profile', { user: userDto, cartsCode, cart });
+        let cartsCode = user.carts[user.carts.length - 1]._id.toString();
+        
+        const getCart = await getCartByIdServices(cartsCode)
+        
+        let listOfProducts = getCart.products.toObject();
+        
+        res.render('profile', { listOfProducts, user: userDto, cartsCode });
         
     } catch (error) {
         console.log(error);
