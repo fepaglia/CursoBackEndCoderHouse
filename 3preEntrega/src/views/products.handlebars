@@ -2,19 +2,24 @@
     <header>
         <h1>Product manager</h1>
         <p>Bienvenido {{user.first_name}}!</p>
-        <a href="/api/sessions/logout"><button>Salir de la sesion</button></a>
-        <a href="/profile"><button>Mi Perfil</button></a>
+        <nav>
+            <ul>
+                <li><button><a href="/profile">Mi Perfil</a></button></li>
+                <li><button><a href="/carts/{{cart}}">Carrito</a></button></li>
+                <li><button><a href="/api/sessions/logout">Salir de la sesion</a></button></li>
+            </ul>
+        </nav>
+        
+        
     </header>
 
     <div class="container">
         {{#if products }}
             {{#each products}}
             <div class="prodBox">
-                <div><span>ID: </span><p>{{_id}}</p></div>
-                <div><span>Nombre: </span><p>{{title}}</p></div>
+
+                <div><p>{{title}}</p></div>
                 <div><span>Precio: </span><p>{{price}}</p></div>
-                <div><span>Descripcion: </span><p>{{description}}</p></div>
-                <div><span>Thumbnails: </span><p>{{thumbnails}}</p></div>
                 <div><span>Status: </span><p>{{status}}</p></div>
                 <div><span>Stock: </span><p>{{stock}}</p></div>
 

@@ -16,7 +16,8 @@ const productsView = async (req,res)=>{
         const sort = req.query.sort;
       
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(limit, page, sort);
-        const products = docs;
+        
+        const products = docs.filter((product) => product.stock > 0);
         
         let Id = user.carts[user.carts.length - 1]._id.toString();
         logger.info(Id);
@@ -31,6 +32,7 @@ const productsView = async (req,res)=>{
           prevPage,
           style: 'products.css'
         });
+
       } catch (error) {
         console.log(error);
         res.status(500).send({ error });

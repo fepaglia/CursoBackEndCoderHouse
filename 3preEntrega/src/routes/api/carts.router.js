@@ -7,6 +7,7 @@ import {
     deleteCart,
     deleteOneProdofCart,
     emptyCart,
+    purchase
 } from '../../controllers/carts.controller.js';
 import { authenticateToken } from '../../config/jwt.config.js';
 import { authorizeRol } from '../../config/role.config.js';
@@ -34,5 +35,8 @@ router.get('/', getCarts)
 
 //Crear Nuevo Carrito:
 router.post('/', authenticateToken, authorizeRol('user'), createCart)
+
+//Finalizar la compra
+router.post('/:cid/purchase',authenticateToken, authorizeRol('user'), purchase)
 
 export default router;

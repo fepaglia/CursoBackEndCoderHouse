@@ -9,6 +9,7 @@ import { createHash, isValidPassword } from '../utils.js';
 import UserDto from '../dao/DTOs/users.dto.js'
 import config from './config.js';
 import logger from './winston.config.js';
+import { newUser as newUserMailing } from './nodemailer.config.js';
 
 const LocalStrategy = local.Strategy;
 
@@ -40,6 +41,8 @@ const initializePassport = () =>{
             };
 
             const result = await userModel.create( newUser );
+
+            await newUserMailing(newUser.email, newUser.first_name);
 
             return done(null, result);
 

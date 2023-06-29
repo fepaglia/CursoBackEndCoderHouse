@@ -9,7 +9,8 @@ const userSchema = new Schema(
         email: {
             type: String,
             unique: true,
-            required: true
+            required: true,
+            match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
         },
         carts: {
             type: [

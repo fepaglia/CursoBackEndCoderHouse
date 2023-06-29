@@ -1,10 +1,13 @@
 <div>
     <nav>
         <h1>Perfil de: {{user.first_name}}</h1>
-        <a href="/api/sessions/logout"><button>Salir de la sesion</button></a>
+        <button><a href="/api/sessions/logout">Salir de la sesion</a></button>
+        <button><a href="/products">Atras</a></button>
+        <button class="purchase" data-cart="{{cartsCode}}">Fianlizar la compra</a></button>
     </nav>
     <div>
         <p>Codigo del Carrito Actual: {{cartsCode}}</p>
+
        
         {{#if listOfProducts}}
             {{#each listOfProducts}}
@@ -23,3 +26,4 @@
         {{/if}}
     </div>
 </div>
+<script src="/js/profile.js"></script>

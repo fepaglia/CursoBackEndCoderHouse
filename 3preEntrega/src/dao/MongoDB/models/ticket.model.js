@@ -14,8 +14,9 @@ const ticketSchema = new Schema(
             require: true,
           },
         purchaser: {
-            type: String,
+            type: Schema.Types.String,
             require: true,
+            ref: 'users'
           },
     },
     {
@@ -25,6 +26,10 @@ const ticketSchema = new Schema(
         versionKey: false
     }
 );
+
+ticketSchema.pre('find', function (){
+  this.populate('purchaser', 'email');
+});
 
 const ticketModel = model(ticketCollection, ticketSchema);
 

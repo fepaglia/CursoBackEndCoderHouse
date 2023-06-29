@@ -4,6 +4,7 @@ import  {
 } from '../services/users.services.js';
 import { createHash } from '../utils.js';
 import { generateToken } from '../config/jwt.config.js';
+import logger from '../config/winston.config.js';
 
 const changePass = async (req, res) => {
     const { email, password } = req.body;
@@ -61,7 +62,8 @@ const login = async (req, res) => {
         httpOnly: true
     })
 
-    console.log(accessToken);
+    logger.warning(accessToken);
+
     res.send({ status: 'success',acces_token: accessToken, message: 'login success' });
 };
 
@@ -84,7 +86,6 @@ const failRegister = async  (req,res)=>{
 
 const current = async (req,res) =>{
     const user = req.user;
-    console.log(user);
      res.send({status: 'success', payload: user});
 }
 
